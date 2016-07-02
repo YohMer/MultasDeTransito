@@ -2,6 +2,7 @@
     <string name="app_name">Multas De Transito</string>
     <string name="ask_cedula_nb">Su numero de cedula:</string>
     <string name="default_cedula_nb">0000000000</string>
+    <string name="cedula_saved">cedula_saved</string>
     <string name="default_total_multas">00000.00</string>
     <string name="cedula_not_valid">Su numero de cedula no esta dentro del sistema</string>
     <string name="total_multas">total multas: </string>

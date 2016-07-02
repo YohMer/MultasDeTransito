@@ -32,7 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                android:id="@+id/editText"
+                android:id="@+id/cedulaNb"
                 android:numeric="integer"
                 android:maxLength="10"
                 android:hint="@string/default_cedula_nb"
@@ -42,7 +42,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:id="@+id/button"
-                android:text="@string/valid" />
+                android:text="@string/valid"
+                android:onClick="saveCedula" />
 
         </LinearLayout>
 
