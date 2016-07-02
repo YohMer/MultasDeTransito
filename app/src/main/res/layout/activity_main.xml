@@ -39,8 +39,8 @@
                 android:textColor="@color/black" />
 
             <Button
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
                 android:id="@+id/button"
                 android:text="@string/valid" />
 
@@ -72,10 +72,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Medium Text"
+                android:text="@string/default_total_multas"
                 android:id="@+id/total_multas_value"
                 android:paddingLeft="10dp"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textIsSelectable="true" />
 
             <TextView
                 android:layout_width="wrap_content"
