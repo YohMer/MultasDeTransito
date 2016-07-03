@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_ref">com.cortocamino.multasdetransito</string>
     <string name="app_name">Multas De Transito</string>
     <string name="ask_cedula_nb">Su numero de cedula:</string>
     <string name="default_cedula_nb">0000000000</string>
@@ -14,4 +15,9 @@
     <string name="link_to_multas_page_list_begin">http://sistemaunico.ant.gob.ec:6033/PortalWEB/paginas/clientes/clp_grid_citaciones.jsp?ps_tipo_identificacion=CED&amp;ps_identificacion=</string>
     <string name="link_to_multas_page_list_end">&amp;ps_placa=</string>
     <string name="previous_id_persona">id_persona=</string>
+
+    
+    //shared keys:
+    <string name="key_cedula">keyCedula</string>
+    <string name="key_id_persona">keyIdPersona</string>
 </resources>

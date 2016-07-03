@@ -18,6 +18,8 @@ public class MainActivity extends AppCompatActivity {
     private static Utils utils;
     SharedPreferences sharedPref;
     int defaultCedulaNb;
+    String key_cedula;
+    String key_id_persona;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,9 +28,13 @@ public class MainActivity extends AppCompatActivity {
 
         utils = new Utils(this, this);
 
+        key_cedula = getString(R.string.key_cedula);
+        key_id_persona = getString(R.string.key_id_persona);
+
         defaultCedulaNb = Integer.parseInt(getString(R.string.default_cedula_nb));
         sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-        int cedulaNb = sharedPref.getInt("cedula_nb", defaultCedulaNb);
+
+        int cedulaNb = sharedPref.getInt(key_cedula, defaultCedulaNb);
 
         EditText cedulaEditText = (EditText) findViewById(R.id.cedulaNb);
         String buffer = String.format("%010d", cedulaNb);
@@ -39,11 +45,11 @@ public class MainActivity extends AppCompatActivity {
         EditText cedulaEditText = (EditText) findViewById(R.id.cedulaNb);
         int cedulaNb = Integer.parseInt(cedulaEditText.getText().toString());
 
-        if ((cedulaNb != sharedPref.getInt("cedula_nb", defaultCedulaNb)) ||
-                (sharedPref.getInt("id_persona", defaultCedulaNb) == -1)){
+        if ((cedulaNb != sharedPref.getInt(key_cedula, defaultCedulaNb)) ||
+                (sharedPref.getInt(key_id_persona, defaultCedulaNb) == -1)){
 
-            utils.saveSharedValue("cedula_nb" ,cedulaNb);
-            utils.saveSharedValue("id_persona" ,-1);
+            utils.saveSharedValue(key_cedula ,cedulaNb);
+            utils.saveSharedValue(key_id_persona ,-1);
 
             if (MY_DEBUG) {
                 TextView debug_id_persona = (TextView) findViewById(R.id.debug_id_persona);
@@ -56,10 +62,6 @@ public class MainActivity extends AppCompatActivity {
                 //todo: try later
             }
         }
-
-
-
-
     }
 
     private void getIdPersona(int cedulaNb){
@@ -84,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
         //save id persona:
         if (idPersona > 0){
-            utils.saveSharedValue("id_persona" ,idPersona);
+            utils.saveSharedValue(key_id_persona ,idPersona);
 
             if (MY_DEBUG) {
                 TextView debug_id_persona = (TextView) findViewById(R.id.debug_id_persona);
