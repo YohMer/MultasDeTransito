@@ -14,12 +14,12 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
     private static final String DEBUG_TAG = "HttpExample";
+    private static final boolean DEBUG_FIRST_START = true;
     private static final boolean MY_DEBUG = true;
     private static Utils utils;
     SharedPreferences sharedPref;
-    int defaultCedulaNb;
-    String key_cedula;
-    String key_id_persona;
+    String key_cedula, defaultCedulaNb;
+    String key_id_persona, defaultIdPersona;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,30 +31,36 @@ public class MainActivity extends AppCompatActivity {
         key_cedula = getString(R.string.key_cedula);
         key_id_persona = getString(R.string.key_id_persona);
 
-        defaultCedulaNb = Integer.parseInt(getString(R.string.default_cedula_nb));
+        defaultCedulaNb = getString(R.string.default_cedula_nb);
+        defaultIdPersona = getString(R.string.default_id_persona);
         sharedPref = this.getPreferences(Context.MODE_PRIVATE);
 
-        int cedulaNb = sharedPref.getInt(key_cedula, defaultCedulaNb);
+        if (DEBUG_FIRST_START)
+            this.getSharedPreferences("YOUR_PREFS", 0).edit().clear().commit();
 
-        EditText cedulaEditText = (EditText) findViewById(R.id.cedulaNb);
-        String buffer = String.format("%010d", cedulaNb);
-        cedulaEditText.setText(buffer);
+        String cedulaNb = sharedPref.getString(key_cedula,  defaultCedulaNb);
+
+        //Show cedula Nb:
+        ((EditText) findViewById(R.id.cedulaNb)).setText(cedulaNb);
     }
 
     public void saveCedula(View view){
         EditText cedulaEditText = (EditText) findViewById(R.id.cedulaNb);
-        int cedulaNb = Integer.parseInt(cedulaEditText.getText().toString());
+        String cedulaNb = cedulaEditText.getText().toString();
+        String idPersona;
 
-        if ((cedulaNb != sharedPref.getInt(key_cedula, defaultCedulaNb)) ||
-                (sharedPref.getInt(key_id_persona, defaultCedulaNb) == -1)){
+        //if new cedula
+        if (!cedulaNb.equals(sharedPref.getString(key_cedula, defaultCedulaNb))){
 
-            utils.saveSharedValue(key_cedula ,cedulaNb);
-            utils.saveSharedValue(key_id_persona ,-1);
+            //save cedula and reset id persona
+            utils.saveSharedSTring(key_cedula ,cedulaNb);
+            utils.saveSharedSTring(key_id_persona ,defaultIdPersona);
+        }
 
-            if (MY_DEBUG) {
-                TextView debug_id_persona = (TextView) findViewById(R.id.debug_id_persona);
-                debug_id_persona.setText("" + "??");
-            }
+        //if id persona missing
+        idPersona = sharedPref.getString(key_id_persona, defaultIdPersona);
+        if (idPersona.equals(defaultIdPersona)){
+
             if (utils.isNetworkAvailable()){
                 getIdPersona(cedulaNb);
             }
@@ -62,11 +68,16 @@ public class MainActivity extends AppCompatActivity {
                 //todo: try later
             }
         }
+        if (MY_DEBUG) {
+            //show idPersona value on screen
+            ((TextView) findViewById(R.id.debug_id_persona)).setText(idPersona);
+        }
     }
 
-    private void getIdPersona(int cedulaNb){
+    private void getIdPersona(String cedulaNb){
         String url = "" + getString(R.string.link_to_multas_page_list_begin) +
-                String.format("%010d", cedulaNb) +
+                //String.format("%010d", cedulaNb) +
+                cedulaNb +
                 getString(R.string.link_to_multas_page_list_end);
 
         //todo: try else call again later
@@ -80,23 +91,21 @@ public class MainActivity extends AppCompatActivity {
         startPosition += preIdPersona.length();
         int endPosition = startPosition + 15;
         String idPersonaStr = html.substring(startPosition, endPosition);
-        int idPersona = utils.extractFirstNb(idPersonaStr);
+        String idPersona = utils.extractFirstNbAsString(idPersonaStr);
 
         Log.d(DEBUG_TAG, "id persona: " + idPersona);
 
         //save id persona:
-        if (idPersona > 0){
-            utils.saveSharedValue(key_id_persona ,idPersona);
-
-            if (MY_DEBUG) {
-                TextView debug_id_persona = (TextView) findViewById(R.id.debug_id_persona);
-                debug_id_persona.setText("" + idPersona);
-            }
+        if (idPersona != ""){
+            utils.saveSharedSTring(key_id_persona ,idPersona);
         }
         else{
             //todo: try later
         }
-
+        if (MY_DEBUG) {
+            TextView debug_id_persona = (TextView) findViewById(R.id.debug_id_persona);
+            debug_id_persona.setText("" + idPersona);
+        }
     }
 
     public class DownloadWebpageTask extends AsyncTask<String, Void, String> {

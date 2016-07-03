@@ -27,21 +27,21 @@ public class Utils {
         this.mContext = mContext;
     }
 
-    public void saveSharedValue(String key, int value){
+    public void saveSharedSTring(String key, String value){
         SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
 
-        editor.putInt(key ,value);
+        editor.putString(key ,value);
         editor.apply();
     }
 
-    public int extractFirstNb(String s){
+    public String extractFirstNbAsString(String s){
         Pattern p = Pattern.compile("(\\d+)(.*)");
         Matcher m = p.matcher(s);
         if (m.find()){
-            return Integer.parseInt(m.group(1));
+            return m.group(1);
         } else {
-            return -1;
+            return "";
         }
     }
 
