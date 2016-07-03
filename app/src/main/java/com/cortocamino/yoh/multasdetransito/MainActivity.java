@@ -2,22 +2,10 @@ package com.cortocamino.yoh.multasdetransito;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.Scanner;
 
 public class MainActivity extends AppCompatActivity {
     private static final String DEBUG_TAG = "HttpExample";
@@ -32,25 +20,25 @@ public class MainActivity extends AppCompatActivity {
         int cedulaNb = sharedPref.getInt("cedula_nb", defaultCedulaNb);
 
         EditText cedulaEditText = (EditText) findViewById(R.id.cedulaNb);
-        String buffer = "" + cedulaNb;
+        String buffer = String.format("%010d", cedulaNb);
         cedulaEditText.setText(buffer);
     }
 
-    private void saveCedula(View view){
+    public void saveCedula(View view){
         EditText cedulaEditText = (EditText) findViewById(R.id.cedulaNb);
         int cedulaNb = Integer.parseInt(cedulaEditText.getText().toString());
 
         saveSharedValue("cedula_nb" ,cedulaNb);
-
+/*
         if (isNetworkAvailable()){
             getIdPersona(cedulaNb);
         }
         else{
             //todo: try later
-        }
+        }*/
 
     }
-
+/*
     private void getIdPersona(int cedulaNb){
         String url = "" + R.string.link_to_multas_page_list_begin + cedulaNb +
                 R.string.link_to_multas_page_list_end;
@@ -116,8 +104,8 @@ public class MainActivity extends AppCompatActivity {
         try {
             URL url = new URL(myurl);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(10000 /* milliseconds */);
-            conn.setConnectTimeout(15000 /* milliseconds */);
+            conn.setReadTimeout(10000 ); // milliseconds
+            conn.setConnectTimeout(15000); // milliseconds
             conn.setRequestMethod("GET");
             conn.setDoInput(true);
             // Starts the query
@@ -147,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
         reader.read(buffer);
         return new String(buffer);
     }
-
+*/
     public void saveSharedValue(String key, int value){
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
