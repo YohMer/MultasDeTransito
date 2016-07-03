@@ -10,5 +10,8 @@
     <string name="last_update">ultima actualizacion: </string>
     <string name="update">actualizar</string>
     <string name="valid">OK</string>  //\u23CE
-    <string name="link_to_gov"><a href="http://sistemaunico.ant.gob.ec:6033/PortalWEB/paginas/clientes/clp_criterio_consulta.jsp">detalles de las multas</a></string>
+    <string name="link_to_gov">http://sistemaunico.ant.gob.ec:6033/PortalWEB/paginas/clientes/clp_criterio_consulta.jsp</string>
+    <string name="link_to_multas_page_list_begin">http://sistemaunico.ant.gob.ec:6033/PortalWEB/paginas/clientes/clp_grid_citaciones.jsp?ps_tipo_identificacion=CED&ps_identificacion=</string>
+    <string name="link_to_multas_page_list_end">&ps_placa=</string>
+    <string name="previous_id_persona">id_persona=</string>
 </resources>
