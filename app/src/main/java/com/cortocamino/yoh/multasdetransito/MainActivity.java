@@ -16,6 +16,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String DEBUG_TAG = "HttpExample";
     private static final boolean MY_DEBUG = true;
     private static Utils utils;
+    SharedPreferences sharedPref;
+    int defaultCedulaNb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +26,8 @@ public class MainActivity extends AppCompatActivity {
 
         utils = new Utils(this, this);
 
-        int defaultCedulaNb = Integer.parseInt(getString(R.string.default_cedula_nb));
-        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        defaultCedulaNb = Integer.parseInt(getString(R.string.default_cedula_nb));
+        sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         int cedulaNb = sharedPref.getInt("cedula_nb", defaultCedulaNb);
 
         EditText cedulaEditText = (EditText) findViewById(R.id.cedulaNb);
@@ -37,14 +39,26 @@ public class MainActivity extends AppCompatActivity {
         EditText cedulaEditText = (EditText) findViewById(R.id.cedulaNb);
         int cedulaNb = Integer.parseInt(cedulaEditText.getText().toString());
 
-        utils.saveSharedValue("cedula_nb" ,cedulaNb);
+        if ((cedulaNb != sharedPref.getInt("cedula_nb", defaultCedulaNb)) ||
+                (sharedPref.getInt("id_persona", defaultCedulaNb) == -1)){
 
-        if (utils.isNetworkAvailable()){
-            getIdPersona(cedulaNb);
+            utils.saveSharedValue("cedula_nb" ,cedulaNb);
+            utils.saveSharedValue("id_persona" ,-1);
+
+            if (MY_DEBUG) {
+                TextView debug_id_persona = (TextView) findViewById(R.id.debug_id_persona);
+                debug_id_persona.setText("" + "??");
+            }
+            if (utils.isNetworkAvailable()){
+                getIdPersona(cedulaNb);
+            }
+            else{
+                //todo: try later
+            }
         }
-        else{
-            //todo: try later
-        }
+
+
+
 
     }
 

@@ -76,7 +76,7 @@ public class Utils {
             is = conn.getInputStream();
 
             // Convert the InputStream into a string
-            return readIt(is, len);
+            return convertStreamToString(is);
 
             // Makes sure that the InputStream is closed after the app is
             // finished using it.
@@ -94,5 +94,10 @@ public class Utils {
         char[] buffer = new char[len];
         reader.read(buffer);
         return new String(buffer);
+    }
+
+    static String convertStreamToString(java.io.InputStream is) {
+        java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
+        return s.hasNext() ? s.next() : "";
     }
 }
