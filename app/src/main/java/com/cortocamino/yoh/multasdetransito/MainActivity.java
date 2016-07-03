@@ -2,13 +2,28 @@ package com.cortocamino.yoh.multasdetransito;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
     private static final String DEBUG_TAG = "HttpExample";
+    private static final boolean MY_DEBUG = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,19 +44,20 @@ public class MainActivity extends AppCompatActivity {
         int cedulaNb = Integer.parseInt(cedulaEditText.getText().toString());
 
         saveSharedValue("cedula_nb" ,cedulaNb);
-/*
+
         if (isNetworkAvailable()){
             getIdPersona(cedulaNb);
         }
         else{
             //todo: try later
-        }*/
+        }
 
     }
-/*
+
     private void getIdPersona(int cedulaNb){
-        String url = "" + R.string.link_to_multas_page_list_begin + cedulaNb +
-                R.string.link_to_multas_page_list_end;
+        String url = "" + getString(R.string.link_to_multas_page_list_begin) +
+                String.format("%010d", cedulaNb) +
+                getString(R.string.link_to_multas_page_list_end);
 
         //todo: try else call again later
         new DownloadWebpageTask().execute(url);
@@ -54,12 +70,22 @@ public class MainActivity extends AppCompatActivity {
         startPosition += preIdPersona.length();
         int endPosition = startPosition + 15;
         String idPersonaStr = html.substring(startPosition, endPosition);
-        int idPersona = new Scanner(idPersonaStr).useDelimiter("\\D+").nextInt();
+        int idPersona = extractFirstNb(idPersonaStr);
 
         Log.d(DEBUG_TAG, "id persona: " + idPersona);
 
         //save id persona:
-        saveSharedValue("id_persona" ,idPersona);
+        if (idPersona > 0){
+            saveSharedValue("id_persona" ,idPersona);
+
+            if (MY_DEBUG) {
+                TextView debug_id_persona = (TextView) findViewById(R.id.debug_id_persona);
+                debug_id_persona.setText("" + idPersona);
+            }
+        }
+        else{
+            //todo: try later
+        }
 
     }
 
@@ -135,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
         reader.read(buffer);
         return new String(buffer);
     }
-*/
+
     public void saveSharedValue(String key, int value){
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
@@ -144,4 +170,13 @@ public class MainActivity extends AppCompatActivity {
         editor.apply();
     }
 
+    private int extractFirstNb(String s){
+        Pattern p = Pattern.compile("(\\d+)(.*)");
+        Matcher m = p.matcher(s);
+        if (m.find()){
+            return Integer.parseInt(m.group(1));
+        } else {
+            return -1;
+        }
+    }
 }

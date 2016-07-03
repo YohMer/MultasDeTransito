@@ -11,7 +11,7 @@
     <string name="update">actualizar</string>
     <string name="valid">OK</string>  //\u23CE
     <string name="link_to_gov">http://sistemaunico.ant.gob.ec:6033/PortalWEB/paginas/clientes/clp_criterio_consulta.jsp</string>
-  <!--  <string name="link_to_multas_page_list_begin">&#104;&#116;&#116;&#112;&#58;&#47;&#47;&#115;&#105;&#115;&#116;&#101;&#109;&#97;&#117;&#110;&#105;&#99;&#111;&#46;&#97;&#110;&#116;&#46;&#103;&#111;&#98;&#46;&#101;&#99;&#58;&#54;&#48;&#51;&#51;&#47;&#80;&#111;&#114;&#116;&#97;&#108;&#87;&#69;&#66;&#47;&#112;&#97;&#103;&#105;&#110;&#97;&#115;&#47;&#99;&#108;&#105;&#101;&#110;&#116;&#101;&#115;&#47;&#99;&#108;&#112;&#95;&#103;&#114;&#105;&#100;&#95;&#99;&#105;&#116;&#97;&#99;&#105;&#111;&#110;&#101;&#115;&#46;&#106;&#115;&#112;&#63;&#112;&#115;&#95;&#116;&#105;&#112;&#111;&#95;&#105;&#100;&#101;&#110;&#116;&#105;&#102;&#105;&#99;&#97;&#99;&#105;&#111;&#110;&#61;&#67;&#69;&#68;&#38;&#112;&#115;&#95;&#105;&#100;&#101;&#110;&#116;&#105;&#102;&#105;&#99;&#97;&#99;&#105;&#111;&#110;&#61;</string>
-  <string name="link_to_multas_page_list_end">&#38;&#112;&#115;&#95;&#112;&#108;&#97;&#99;&#97;&#61;</string> -->
+    <string name="link_to_multas_page_list_begin">http://sistemaunico.ant.gob.ec:6033/PortalWEB/paginas/clientes/clp_grid_citaciones.jsp?ps_tipo_identificacion=CED&amp;ps_identificacion=</string>
+    <string name="link_to_multas_page_list_end">&amp;ps_placa=</string>
     <string name="previous_id_persona">id_persona=</string>
 </resources>

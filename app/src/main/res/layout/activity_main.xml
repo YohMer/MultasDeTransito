@@ -122,6 +122,15 @@
                 android:text="@string/update"
                 android:id="@+id/button2"
                 android:layout_gravity="center" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Medium Text"
+                android:id="@+id/debug_id_persona"
+                android:layout_gravity="right|bottom" />
+
         </FrameLayout>
 
         <TextView
