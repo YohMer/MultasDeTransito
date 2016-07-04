@@ -6,7 +6,6 @@
     <string name="ask_cedula_nb">Su numero de cedula:</string>
     <string name="default_cedula_nb">0000000000</string>
     <string name="cedula_saved">cedula_saved</string>
-    <string name="cedula_not_valid">Su numero de cedula no esta dentro del sistema</string>
 
     //id persona values:
     <string name="default_id_persona">0000000</string>
@@ -30,6 +29,12 @@
     <string name="key_id_persona">keyIdPersona</string>
     <string name="key_total_multas">keyTotalMulta</string>
     <string name="key_last_update_time">keyLastUpdateTime</string>
+
+    //messages:
+    <string name="no_connection">No hay conneccion a internet</string>
+    <string name="msg_validating_cedula">Confirmando su numero de cedula</string>
+    <string name="msg_cedula_not_valid">Su numero de cedula no esta reconocida</string>
+    <string name="msg_multas_not_accessible">No hay accesso al servidor</string>
 
     //others:
     <string name="default_total_multas">00000.00</string>

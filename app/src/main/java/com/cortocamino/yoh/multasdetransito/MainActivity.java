@@ -29,6 +29,10 @@ public class MainActivity extends AppCompatActivity {
     String key_id_persona, defaultIdPersona;
     String key_total_multas, defaultMultas;
     String key_update_time, default_update_time;
+    boolean stateNetworkOn = false;
+    boolean stateValidatingCedula = false;
+    boolean stateAccessIdPersona = false;
+    boolean stateAccessMultas = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +80,33 @@ public class MainActivity extends AppCompatActivity {
         ((TextView)findViewById(R.id.date_update)).setText(time);
     }
 
+    private void updateInfo1(){
+        //reset message:
+        ((TextView)findViewById(R.id.info1)).setText("");
+
+        //get info:
+        String idPersona = sharedPref.getString(key_id_persona,  defaultIdPersona);
+        if (!idPersona.equals(defaultIdPersona))
+            stateAccessIdPersona = true;
+
+        if (!stateNetworkOn){
+            ((TextView)findViewById(R.id.info1)).setText(R.string.no_connection);
+            return;
+        }
+        if (stateValidatingCedula){
+            ((TextView)findViewById(R.id.info1)).setText(R.string.msg_validating_cedula);
+            return;
+        }
+        if (!stateAccessIdPersona){
+            ((TextView)findViewById(R.id.info1)).setText(R.string.msg_cedula_not_valid);
+            return;
+        }
+        if (!stateAccessMultas){
+            ((TextView)findViewById(R.id.info1)).setText(R.string.msg_multas_not_accessible);
+            return;
+        }
+    }
+
     public void saveCedula(View view){
         EditText cedulaEditText = (EditText) findViewById(R.id.cedulaNb);
         String cedulaNb = cedulaEditText.getText().toString();
@@ -84,10 +115,12 @@ public class MainActivity extends AppCompatActivity {
         //if new cedula
         if (!cedulaNb.equals(sharedPref.getString(key_cedula, defaultCedulaNb))){
 
-            //save cedula and reset id persona and total multas
+            stateValidatingCedula = true;
+            //save cedula and reset id persona, total multas and date.
             utils.saveSharedSTring(key_cedula ,cedulaNb);
             utils.saveSharedSTring(key_id_persona ,defaultIdPersona);
             utils.saveSharedSTring(key_total_multas, defaultMultas);
+            utils.saveSharedSTring(key_update_time, default_update_time);
         }
 
         //if id persona missing
@@ -95,9 +128,10 @@ public class MainActivity extends AppCompatActivity {
         if (idPersona.equals(defaultIdPersona)){
 
             if (utils.isNetworkAvailable()){
+                stateNetworkOn = true;
                 getIdPersona(cedulaNb);
-            }
-            else{
+            }else{
+                stateNetworkOn = false;
                 //todo: try later
             }
         }
@@ -123,12 +157,14 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d(DEBUG_TAG, "id persona: " + idPersona);
 
+        stateValidatingCedula = false;
         //save id persona:
-        if (idPersona != ""){
+        if (idPersona.equals("")){
+            stateAccessIdPersona = true;
             utils.saveSharedSTring(key_id_persona ,idPersona);
-            //getMultas();
-        }
-        else{
+            getMultas();
+        } else {
+            stateAccessIdPersona = false;
             //todo: try later
         }
     }
@@ -148,6 +184,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(String html) {
             saveIdPersona(html);
             updateViewValues();
+            updateInfo1();
             getMultas();
         }
     }
@@ -159,9 +196,11 @@ public class MainActivity extends AppCompatActivity {
         String url = String.format(
                 getString(R.string.link_to_xjson_multas_list), idPersona, cedula, time);
 
+        stateAccessMultas = false;
         if(idPersona.length() < 5){
             Log.d(ERROR, "idPersono.length < 5 can not get multas");
             utils.saveSharedSTring(getString(R.string.key_total_multas), "0");
+            stateAccessIdPersona = false;
             return;
         }
         if (MY_DEBUG){
@@ -171,7 +210,13 @@ public class MainActivity extends AppCompatActivity {
             Log.d(DEBUG_TAG, "time: " + time);
             Log.d(DEBUG_TAG, "url: " + url);
         }
-        new DownloadMultas().execute(url);
+        if (utils.isNetworkAvailable()){ //todo: wifi stopped still say ok
+            stateNetworkOn = true;
+            new DownloadMultas().execute(url);
+        }else{
+            stateNetworkOn = false;
+            //todo: try later
+        }
     }
     public void getMultas(View view){
         getMultas();
@@ -202,11 +247,10 @@ public class MainActivity extends AppCompatActivity {
 
             utils.saveSharedSTring(getString(R.string.key_total_multas), totalStr);
             utils.saveSharedSTring(getString(R.string.key_last_update_time), dateStr);
+            stateAccessMultas = true;
         }catch(JSONException e){
 
         }
-
-
     }
     private class DownloadMultas extends AsyncTask<String, Void, String> {
         @Override
@@ -224,6 +268,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(String json) {
             saveMultas(json);
             updateViewValues();
+            updateInfo1();
         }
     }
 }
