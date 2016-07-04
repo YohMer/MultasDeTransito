@@ -122,16 +122,22 @@ public class MainActivity extends AppCompatActivity {
         utils.saveSharedSTring(key_cedula ,cedulaNb);
 
         //is id persona valid
-        if((Integer.parseInt(cedulaNb) <= 0) || (cedulaNb.length() != 10)){
-            return;
+        if((cedulaNb.length() == 10) && (Integer.parseInt(cedulaNb) > 0)){
+            //find id persona:
+            if (utils.isNetworkAvailable()){
+                stateNetworkOn = true;
+                getIdPersona(cedulaNb);
+            }else{
+                stateNetworkOn = false;
+                //todo: try later
+            }
         }
-        //find id persona:
-        if (utils.isNetworkAvailable()){
+        else{
             stateNetworkOn = true;
-            getIdPersona(cedulaNb);
-        }else{
-            stateNetworkOn = false;
-            //todo: try later
+            stateValidatingCedula = false;
+            stateAccessIdPersona = false;
+            updateInfo1();
+            updateViewValues();
         }
     }
 
