@@ -15,6 +15,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     private static final String DEBUG_TAG = "DEBUG";
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     String key_cedula, defaultCedulaNb;
     String key_id_persona, defaultIdPersona;
     String key_total_multas, defaultMultas;
+    String key_update_time, default_update_time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +41,13 @@ public class MainActivity extends AppCompatActivity {
         key_cedula = getString(R.string.key_cedula);
         key_id_persona = getString(R.string.key_id_persona);
         key_total_multas = getString(R.string.key_total_multas);
+        key_update_time = getString(R.string.key_last_update_time);
 
         defaultCedulaNb = getString(R.string.default_cedula_nb);
         defaultIdPersona = getString(R.string.default_id_persona);
         defaultMultas = getString(R.string.default_multas);
+        default_update_time = getString(R.string.default_update_time);
+
         sharedPref = this.getPreferences(Context.MODE_PRIVATE);
 
         if (DEBUG_FIRST_START)
@@ -64,6 +70,10 @@ public class MainActivity extends AppCompatActivity {
         //show total multas:
         String totalStr = sharedPref.getString(key_total_multas,  defaultMultas);
         ((TextView)findViewById(R.id.total_multas_value)).setText(totalStr);
+
+        //show last update time:
+        String time = sharedPref.getString(key_update_time, default_update_time);
+        ((TextView)findViewById(R.id.date_update)).setText(time);
     }
 
     public void saveCedula(View view){
@@ -167,26 +177,31 @@ public class MainActivity extends AppCompatActivity {
         getMultas();
     }
     private void saveMultas(String jsonTxt){
-        float total = 0;
-        String totalStr;
-        int length = 0;
-        String buffer = "";
+
         try{
+            float total = 0;
+            String totalStr, buffer;
+            int length;
+
             JSONObject json = new JSONObject(jsonTxt);
             JSONArray rows = json.getJSONArray("rows");
             JSONObject obj;
+
             length = rows.length();
 
             for(int i = 0; i < length; i++){
                 obj = (JSONObject) rows.get(i);
                 buffer = ((JSONArray) obj.get("cell")).getString(16);
                 total += Float.parseFloat(buffer);
-
             }
 
             totalStr = String.format("%1.2f", total);
 
+            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", new Locale("es-EC"));
+            String dateStr = df.format(System.currentTimeMillis());
+
             utils.saveSharedSTring(getString(R.string.key_total_multas), totalStr);
+            utils.saveSharedSTring(getString(R.string.key_last_update_time), dateStr);
         }catch(JSONException e){
 
         }

@@ -15,6 +15,9 @@
     //multas values:
     <string name="default_multas">00000.00</string>
 
+    //update time:
+    <string name="default_update_time"> 00/00/0000</string>
+
     //links values:
     <string name="link_to_gov">http://sistemaunico.ant.gob.ec:6033/PortalWEB/paginas/clientes/clp_criterio_consulta.jsp</string>
     <string name="link_to_multas_page_list_begin">http://sistemaunico.ant.gob.ec:6033/PortalWEB/paginas/clientes/clp_grid_citaciones.jsp?ps_tipo_identificacion=CED&amp;ps_identificacion=</string>
@@ -26,6 +29,7 @@
     <string name="key_cedula">keyCedula</string>
     <string name="key_id_persona">keyIdPersona</string>
     <string name="key_total_multas">keyTotalMulta</string>
+    <string name="key_last_update_time">keyLastUpdateTime</string>
 
     //others:
     <string name="default_total_multas">00000.00</string>
