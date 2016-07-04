@@ -64,7 +64,12 @@ public class MainActivity extends AppCompatActivity {
     private void updateViewValues(){
         //show cedula Nb:
         String cedulaNb = sharedPref.getString(key_cedula,  defaultCedulaNb);
-        ((EditText) findViewById(R.id.cedulaNb)).setText(cedulaNb);
+        if(cedulaNb.equals(defaultCedulaNb)){
+            ((EditText) findViewById(R.id.cedulaNb)).setText("");
+        } else {
+            ((EditText) findViewById(R.id.cedulaNb)).setText(cedulaNb);
+        }
+
 
         //show id persona:
         if (MY_DEBUG){
