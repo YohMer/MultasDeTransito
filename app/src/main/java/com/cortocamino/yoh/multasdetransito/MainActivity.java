@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         if (DEBUG_FIRST_START)
             this.getSharedPreferences("YOUR_PREFS", 0).edit().clear().commit();
 
+        resetSharedString();
         updateViewValues();
     }
 
@@ -110,16 +111,15 @@ public class MainActivity extends AppCompatActivity {
     public void saveCedula(View view){
         EditText cedulaEditText = (EditText) findViewById(R.id.cedulaNb);
         String cedulaNb = cedulaEditText.getText().toString();
-        String idPersona;
-
 
         stateValidatingCedula = true;
-        //save cedula and reset id persona, total multas and date.
+        resetSharedString();
         utils.saveSharedSTring(key_cedula ,cedulaNb);
-        utils.saveSharedSTring(key_id_persona ,defaultIdPersona);
-        utils.saveSharedSTring(key_total_multas, defaultMultas);
-        utils.saveSharedSTring(key_update_time, default_update_time);
 
+        //is id persona valid
+        if((Integer.parseInt(cedulaNb) <= 0) || (cedulaNb.length() != 10)){
+            return;
+        }
         //find id persona:
         if (utils.isNetworkAvailable()){
             stateNetworkOn = true;
@@ -130,10 +130,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void resetSharedString(){
+        utils.saveSharedSTring(key_cedula, defaultCedulaNb);
+        utils.saveSharedSTring(key_id_persona, defaultIdPersona);
+        utils.saveSharedSTring(key_total_multas, defaultMultas);
+        utils.saveSharedSTring(key_update_time, default_update_time);
+
+        (findViewById(R.id.btn_update)).setVisibility(View.INVISIBLE);
+    }
+
     private void getIdPersona(String cedulaNb){
         String url = "" + getString(R.string.link_to_multas_page_list_begin) +
                 cedulaNb +
                 getString(R.string.link_to_multas_page_list_end);
+        Log.d(DEBUG_TAG, "id persona url: " + url);
 
         //todo: try else call again later
         new DownloadIdPersona().execute(url);
@@ -154,6 +164,7 @@ public class MainActivity extends AppCompatActivity {
         if (Integer.parseInt(idPersona) > 1000){
             stateAccessIdPersona = true;
             utils.saveSharedSTring(key_id_persona ,idPersona);
+            (findViewById(R.id.btn_update)).setVisibility(View.VISIBLE);
         } else {
             stateAccessIdPersona = false;
             utils.saveSharedSTring(key_id_persona ,defaultIdPersona);
@@ -215,6 +226,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     public void getMultas(View view){
+        (findViewById(R.id.btn_update)).setVisibility(View.INVISIBLE);
         getMultas();
     }
     private void saveMultas(String jsonTxt){
@@ -265,6 +277,7 @@ public class MainActivity extends AppCompatActivity {
             saveMultas(json);
             updateViewValues();
             updateInfo1();
+            (findViewById(R.id.btn_update)).setVisibility(View.VISIBLE);
         }
     }
 }

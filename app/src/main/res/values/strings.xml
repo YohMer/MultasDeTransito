@@ -12,7 +12,7 @@
     <string name="previous_id_persona">id_persona=</string>
 
     //multas values:
-    <string name="default_multas">00000.00</string>
+    <string name="default_multas">0.00</string>
 
     //update time:
     <string name="default_update_time"> 00/00/0000</string>
