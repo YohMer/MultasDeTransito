@@ -12,14 +12,20 @@
     <string name="default_id_persona">0000000</string>
     <string name="previous_id_persona">id_persona=</string>
 
+    //multas values:
+    <string name="default_multas">00000.00</string>
+
     //links values:
     <string name="link_to_gov">http://sistemaunico.ant.gob.ec:6033/PortalWEB/paginas/clientes/clp_criterio_consulta.jsp</string>
     <string name="link_to_multas_page_list_begin">http://sistemaunico.ant.gob.ec:6033/PortalWEB/paginas/clientes/clp_grid_citaciones.jsp?ps_tipo_identificacion=CED&amp;ps_identificacion=</string>
     <string name="link_to_multas_page_list_end">&amp;ps_placa=</string>
+    <string name="link_to_xjson_multas_list">http://sistemaunico.ant.gob.ec:6033/PortalWEB/paginas/clientes/clp_json_citaciones.jsp?ps_opcion=P&amp;ps_id_contrato=&amp;ps_id_persona=%1$s&amp;ps_placa=&amp;ps_identificacion=%2$s&amp;ps_tipo_identificacion=CED&amp;_search=false&amp;nd=%3$s&amp;rows=50&amp;page=1&amp;sidx=fecha_emision&amp;sord=desc
+</string>
 
     //shared keys:
     <string name="key_cedula">keyCedula</string>
     <string name="key_id_persona">keyIdPersona</string>
+    <string name="key_total_multas">keyTotalMulta</string>
 
     //others:
     <string name="default_total_multas">00000.00</string>
