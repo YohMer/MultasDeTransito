@@ -112,34 +112,26 @@ public class MainActivity extends AppCompatActivity {
         String cedulaNb = cedulaEditText.getText().toString();
         String idPersona;
 
-        //if new cedula
-        if (!cedulaNb.equals(sharedPref.getString(key_cedula, defaultCedulaNb))){
 
-            stateValidatingCedula = true;
-            //save cedula and reset id persona, total multas and date.
-            utils.saveSharedSTring(key_cedula ,cedulaNb);
-            utils.saveSharedSTring(key_id_persona ,defaultIdPersona);
-            utils.saveSharedSTring(key_total_multas, defaultMultas);
-            utils.saveSharedSTring(key_update_time, default_update_time);
-        }
+        stateValidatingCedula = true;
+        //save cedula and reset id persona, total multas and date.
+        utils.saveSharedSTring(key_cedula ,cedulaNb);
+        utils.saveSharedSTring(key_id_persona ,defaultIdPersona);
+        utils.saveSharedSTring(key_total_multas, defaultMultas);
+        utils.saveSharedSTring(key_update_time, default_update_time);
 
-        //if id persona missing
-        idPersona = sharedPref.getString(key_id_persona, defaultIdPersona);
-        if (idPersona.equals(defaultIdPersona)){
-
-            if (utils.isNetworkAvailable()){
-                stateNetworkOn = true;
-                getIdPersona(cedulaNb);
-            }else{
-                stateNetworkOn = false;
-                //todo: try later
-            }
+        //find id persona:
+        if (utils.isNetworkAvailable()){
+            stateNetworkOn = true;
+            getIdPersona(cedulaNb);
+        }else{
+            stateNetworkOn = false;
+            //todo: try later
         }
     }
 
     private void getIdPersona(String cedulaNb){
         String url = "" + getString(R.string.link_to_multas_page_list_begin) +
-                //String.format("%010d", cedulaNb) +
                 cedulaNb +
                 getString(R.string.link_to_multas_page_list_end);
 
@@ -159,12 +151,12 @@ public class MainActivity extends AppCompatActivity {
 
         stateValidatingCedula = false;
         //save id persona:
-        if (idPersona.equals("")){
+        if (Integer.parseInt(idPersona) > 1000){
             stateAccessIdPersona = true;
             utils.saveSharedSTring(key_id_persona ,idPersona);
-            getMultas();
         } else {
             stateAccessIdPersona = false;
+            utils.saveSharedSTring(key_id_persona ,defaultIdPersona);
             //todo: try later
         }
     }
@@ -185,7 +177,11 @@ public class MainActivity extends AppCompatActivity {
             saveIdPersona(html);
             updateViewValues();
             updateInfo1();
-            getMultas();
+            String idPersona = sharedPref.getString(key_id_persona, defaultIdPersona);
+            if (Integer.parseInt(idPersona) > 1000){
+                stateAccessIdPersona = true;
+                getMultas();
+            }
         }
     }
 
@@ -197,9 +193,9 @@ public class MainActivity extends AppCompatActivity {
                 getString(R.string.link_to_xjson_multas_list), idPersona, cedula, time);
 
         stateAccessMultas = false;
-        if(idPersona.length() < 5){
-            Log.d(ERROR, "idPersono.length < 5 can not get multas");
-            utils.saveSharedSTring(getString(R.string.key_total_multas), "0");
+        if(Integer.parseInt(idPersona)< 1000){
+            Log.d(ERROR, "idPersona < 1000 can not get multas");
+            utils.saveSharedSTring(getString(R.string.key_total_multas), defaultIdPersona);
             stateAccessIdPersona = false;
             return;
         }
