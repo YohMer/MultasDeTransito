@@ -12,6 +12,9 @@
     <string name="previous_id_persona">id_persona=</string>
 
     //multas values:
+    <string name="devise">$</string>
+    <string name="default_total_multas">00000.00</string>
+    <string name="total_multas">total multas: </string>
     <string name="default_multas">0.00</string>
 
     //update time:
@@ -37,9 +40,6 @@
     <string name="msg_multas_not_accessible">No hay accesso al servidor</string>
 
     //others:
-    <string name="default_total_multas">00000.00</string>
-    <string name="total_multas">total multas: </string>
-    <string name="devise">$</string>
     <string name="last_update">ultima actualizacion: </string>
     <string name="update">actualizar</string>
     <string name="valid">OK</string>  //\u23CE
