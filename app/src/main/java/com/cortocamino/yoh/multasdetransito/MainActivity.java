@@ -1,7 +1,12 @@
 package com.cortocamino.yoh.multasdetransito;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     boolean stateValidatingCedula = false;
     boolean stateAccessIdPersona = false;
     boolean stateAccessMultas = false;
+    private PendingIntent pendingIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +60,11 @@ public class MainActivity extends AppCompatActivity {
         default_update_time = getString(R.string.default_update_time);
 
         sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+
+        //init alarm:
+        Intent alarmIntent = new Intent(MainActivity.this, AlarmReceiver.class);
+        pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, alarmIntent, 0);
+        startAlarm();
 
         if (DEBUG_FIRST_START)
             this.getSharedPreferences("YOUR_PREFS", 0).edit().clear().commit();
@@ -290,5 +302,32 @@ public class MainActivity extends AppCompatActivity {
             updateInfo1();
             (findViewById(R.id.btn_update)).setVisibility(View.VISIBLE);
         }
+    }
+
+    public void startAlarm() {
+        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        int interval = 10000;
+
+        manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
+                interval, pendingIntent);
+        Toast.makeText(this, "Alarm Set from startAlarm", Toast.LENGTH_SHORT).show();
+
+        //enable the schedule alarm
+        ComponentName alarmReceiver = new ComponentName(MainActivity.this,
+                AlarmReceiver.class);
+        PackageManager pmAR = MainActivity.this.getPackageManager();
+
+        pmAR.setComponentEnabledSetting(alarmReceiver,
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                PackageManager.DONT_KILL_APP);
+
+        //enable the boot receiver
+        ComponentName bootReceiver = new ComponentName(MainActivity.this,
+                AlarmReceiver.class);
+        PackageManager pmBR = MainActivity.this.getPackageManager();
+
+        pmBR.setComponentEnabledSetting(bootReceiver,
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                PackageManager.DONT_KILL_APP);
     }
 }
