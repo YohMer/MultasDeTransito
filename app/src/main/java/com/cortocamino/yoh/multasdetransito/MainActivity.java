@@ -234,7 +234,7 @@ public class MainActivity extends AppCompatActivity {
         stateAccessMultas = false;
         if(Integer.parseInt(idPersona)< 1000){
             Log.d(ERROR, "idPersona < 1000 can not get multas");
-            utils.saveSharedSTring(getString(R.string.key_total_multas), defaultIdPersona);
+            utils.saveSharedSTring(getString(R.string.key_total_multas), defaultMultas);
             stateAccessIdPersona = false;
             return;
         }
