@@ -7,12 +7,18 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -100,5 +106,37 @@ public class Utils {
     static String convertStreamToString(java.io.InputStream is) {
         java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
         return s.hasNext() ? s.next() : "";
+    }
+
+    Boolean saveMultas(String jsonTxt){
+
+        try{
+            float total = 0;
+            String totalStr, buffer;
+            int length;
+
+            JSONObject json = new JSONObject(jsonTxt);
+            JSONArray rows = json.getJSONArray("rows");
+            JSONObject obj;
+
+            length = rows.length();
+
+            for(int i = 0; i < length; i++){
+                obj = (JSONObject) rows.get(i);
+                buffer = ((JSONArray) obj.get("cell")).getString(16);
+                total += Float.parseFloat(buffer);
+            }
+
+            totalStr = String.format("%1.2f", total);
+
+            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", new Locale("es-EC"));
+            String dateStr = df.format(System.currentTimeMillis());
+
+            this.saveSharedSTring(mContext.getString(R.string.key_total_multas), totalStr);
+            this.saveSharedSTring(mContext.getString(R.string.key_last_update_time), dateStr);
+            return true;
+        }catch(JSONException e){
+            return false;
+        }
     }
 }

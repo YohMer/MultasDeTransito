@@ -17,13 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     private static final String DEBUG_TAG = "DEBUG";
@@ -36,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     String key_id_persona, defaultIdPersona;
     String key_total_multas, defaultMultas;
     String key_update_time, default_update_time;
-    String key_link_to_xjson_multas_list;
+    String key_full_link_to_xjson_multas_list;
     boolean stateNetworkOn = false;
     boolean stateValidatingCedula = false;
     boolean stateAccessIdPersona = false;
@@ -55,7 +49,8 @@ public class MainActivity extends AppCompatActivity {
         key_id_persona = getString(R.string.key_id_persona);
         key_total_multas = getString(R.string.key_total_multas);
         key_update_time = getString(R.string.key_last_update_time);
-        key_link_to_xjson_multas_list = getString(R.string.key_link_to_xjson_multas_list);
+        key_full_link_to_xjson_multas_list =
+                getString(R.string.key_full_link_to_xjson_multas_list);
 
         defaultCedulaNb = getString(R.string.default_cedula_nb);
         defaultIdPersona = getString(R.string.default_id_persona);
@@ -191,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
         if (Integer.parseInt(idPersona) > 1000){
             stateAccessIdPersona = true;
             utils.saveSharedSTring(key_id_persona ,idPersona);
-            utils.saveSharedSTring(key_link_to_xjson_multas_list ,idPersona);
+            utils.saveSharedSTring(key_full_link_to_xjson_multas_list,idPersona);
             (findViewById(R.id.btn_update)).setVisibility(View.VISIBLE);
         } else {
             stateAccessIdPersona = false;
@@ -258,35 +253,7 @@ public class MainActivity extends AppCompatActivity {
         getMultas();
     }
     private void saveMultas(String jsonTxt){
-
-        try{
-            float total = 0;
-            String totalStr, buffer;
-            int length;
-
-            JSONObject json = new JSONObject(jsonTxt);
-            JSONArray rows = json.getJSONArray("rows");
-            JSONObject obj;
-
-            length = rows.length();
-
-            for(int i = 0; i < length; i++){
-                obj = (JSONObject) rows.get(i);
-                buffer = ((JSONArray) obj.get("cell")).getString(16);
-                total += Float.parseFloat(buffer);
-            }
-
-            totalStr = String.format("%1.2f", total);
-
-            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", new Locale("es-EC"));
-            String dateStr = df.format(System.currentTimeMillis());
-
-            utils.saveSharedSTring(getString(R.string.key_total_multas), totalStr);
-            utils.saveSharedSTring(getString(R.string.key_last_update_time), dateStr);
-            stateAccessMultas = true;
-        }catch(JSONException e){
-
-        }
+        stateAccessMultas = utils.saveMultas(jsonTxt);
     }
     private class DownloadMultas extends AsyncTask<String, Void, String> {
         @Override
