@@ -72,6 +72,18 @@ public class MainActivity extends AppCompatActivity {
         updateViewValues();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        utils.saveShared(getString(R.string.key_activity_on), false);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        utils.saveShared(getString(R.string.key_activity_on), true);
+    }
+
     private void updateViewValues(){
         //show cedula Nb:
         String cedulaNb = sharedPref.getString(key_cedula,  defaultCedulaNb);
@@ -130,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
 
         stateValidatingCedula = true;
         resetSharedString();
-        utils.saveSharedSTring(key_cedula ,cedulaNb);
+        utils.saveShared(key_cedula ,cedulaNb);
 
         //is id persona valid
         if((cedulaNb.length() == 10) && (Integer.parseInt(cedulaNb) > 0)){
@@ -153,11 +165,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void resetSharedString(){
-        utils.saveSharedSTring(key_cedula, defaultCedulaNb);
-        utils.saveSharedSTring(key_id_persona, defaultIdPersona);
-        utils.saveSharedSTring(key_total_multas, defaultMultas);
-        utils.saveSharedSTring(key_update_time, default_update_time);
-        utils.saveSharedSTring(key_full_link_to_xjson_multas_list, "");
+        utils.saveShared(key_cedula, defaultCedulaNb);
+        utils.saveShared(key_id_persona, defaultIdPersona);
+        utils.saveShared(key_total_multas, defaultMultas);
+        utils.saveShared(key_update_time, default_update_time);
+        utils.saveShared(key_full_link_to_xjson_multas_list, "");
 
         (findViewById(R.id.btn_update)).setVisibility(View.INVISIBLE);
     }
@@ -191,12 +203,12 @@ public class MainActivity extends AppCompatActivity {
         //save id persona:
         if (Integer.parseInt(idPersona) > 1000){
             stateAccessIdPersona = true;
-            utils.saveSharedSTring(key_id_persona ,idPersona);
-            utils.saveSharedSTring(key_full_link_to_xjson_multas_list,fullLink);
+            utils.saveShared(key_id_persona ,idPersona);
+            utils.saveShared(key_full_link_to_xjson_multas_list,fullLink);
             (findViewById(R.id.btn_update)).setVisibility(View.VISIBLE);
         } else {
             stateAccessIdPersona = false;
-            utils.saveSharedSTring(key_id_persona ,defaultIdPersona);
+            utils.saveShared(key_id_persona ,defaultIdPersona);
             //todo: try later
         }
     }
@@ -235,7 +247,7 @@ public class MainActivity extends AppCompatActivity {
         stateAccessMultas = false;
         if(Integer.parseInt(idPersona)< 1000){
             Log.d(ERROR, "idPersona < 1000 can not get multas");
-            utils.saveSharedSTring(getString(R.string.key_total_multas), defaultMultas);
+            utils.saveShared(getString(R.string.key_total_multas), defaultMultas);
             stateAccessIdPersona = false;
             return;
         }

@@ -33,12 +33,21 @@ public class Utils {
         this.mContext = mContext;
     }
 
-    public void saveSharedSTring(String key, String value){
+    public void saveShared(String key, String value){
         SharedPreferences sharedPref =
                 PreferenceManager.getDefaultSharedPreferences(mContext);
         SharedPreferences.Editor editor = sharedPref.edit();
 
         editor.putString(key ,value);
+        editor.apply();
+    }
+
+    public void saveShared(String key, Boolean value){
+        SharedPreferences sharedPref =
+                PreferenceManager.getDefaultSharedPreferences(mContext);
+        SharedPreferences.Editor editor = sharedPref.edit();
+
+        editor.putBoolean(key ,value);
         editor.apply();
     }
 
@@ -132,9 +141,9 @@ public class Utils {
             SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", new Locale("es-EC"));
             String dateStr = df.format(System.currentTimeMillis());
 
-            this.saveSharedSTring(
+            this.saveShared(
                     mContext.getString(R.string.key_total_multas), totalStr);
-            this.saveSharedSTring(
+            this.saveShared(
                     mContext.getString(R.string.key_last_update_time), dateStr);
             return true;
         }catch(JSONException e){
