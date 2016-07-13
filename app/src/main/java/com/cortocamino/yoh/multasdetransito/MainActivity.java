@@ -157,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
         utils.saveSharedSTring(key_id_persona, defaultIdPersona);
         utils.saveSharedSTring(key_total_multas, defaultMultas);
         utils.saveSharedSTring(key_update_time, default_update_time);
+        utils.saveSharedSTring(key_full_link_to_xjson_multas_list, "");
 
         (findViewById(R.id.btn_update)).setVisibility(View.INVISIBLE);
     }
@@ -179,6 +180,11 @@ public class MainActivity extends AppCompatActivity {
         String idPersonaStr = html.substring(startPosition, endPosition);
         String idPersona = utils.extractFirstNbAsString(idPersonaStr);
 
+        //full json link:
+        String cedula = sharedPref.getString(key_cedula, defaultCedulaNb);
+        String fullLink = String.format(
+                getString(R.string.link_to_xjson_multas_list), idPersona, cedula, "%1$s");
+
         Log.d(DEBUG_TAG, "id persona: " + idPersona);
 
         stateValidatingCedula = false;
@@ -186,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
         if (Integer.parseInt(idPersona) > 1000){
             stateAccessIdPersona = true;
             utils.saveSharedSTring(key_id_persona ,idPersona);
-            utils.saveSharedSTring(key_full_link_to_xjson_multas_list,idPersona);
+            utils.saveSharedSTring(key_full_link_to_xjson_multas_list,fullLink);
             (findViewById(R.id.btn_update)).setVisibility(View.VISIBLE);
         } else {
             stateAccessIdPersona = false;
@@ -278,7 +284,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void startAlarm() {
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        int interval = 10000;
+        int interval = 20000;
 
         manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
                 interval, pendingIntent);

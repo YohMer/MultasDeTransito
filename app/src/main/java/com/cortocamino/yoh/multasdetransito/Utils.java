@@ -132,8 +132,10 @@ public class Utils {
             SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", new Locale("es-EC"));
             String dateStr = df.format(System.currentTimeMillis());
 
-            this.saveSharedSTring(mContext.getString(R.string.key_total_multas), totalStr);
-            this.saveSharedSTring(mContext.getString(R.string.key_last_update_time), dateStr);
+            this.saveSharedSTring(
+                    mContext.getString(R.string.key_total_multas), totalStr);
+            this.saveSharedSTring(
+                    mContext.getString(R.string.key_last_update_time), dateStr);
             return true;
         }catch(JSONException e){
             return false;

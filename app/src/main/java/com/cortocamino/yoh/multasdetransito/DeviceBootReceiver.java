@@ -11,7 +11,7 @@ import android.widget.Toast;
  * Created by yoh on 7/11/16.
  */
 public class DeviceBootReceiver extends BroadcastReceiver {
-    int interval = 8000; //(milliseconds)
+    int interval = 20000; //(milliseconds)
 
     @Override
     public void onReceive(Context context, Intent intent) {
