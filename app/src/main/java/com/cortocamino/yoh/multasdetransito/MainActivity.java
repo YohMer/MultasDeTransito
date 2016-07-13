@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        utils = new Utils(this, this);
+        utils = new Utils(this);
 
         //init:
         key_cedula = getString(R.string.key_cedula);

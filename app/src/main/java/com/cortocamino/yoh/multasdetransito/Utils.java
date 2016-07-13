@@ -23,14 +23,13 @@ public class Utils {
     Context mContext;
     Activity activity;
 
-    public Utils(Context mContext, Activity activity){
-        this.activity = activity;
+    public Utils(Context mContext){
         this.mContext = mContext;
     }
 
     public void saveSharedSTring(String key, String value){
         SharedPreferences sharedPref =
-                PreferenceManager.getDefaultSharedPreferences(activity);
+                PreferenceManager.getDefaultSharedPreferences(mContext);
         SharedPreferences.Editor editor = sharedPref.edit();
 
         editor.putString(key ,value);
