@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
         resetSharedString();
         utils.saveShared(key_cedula ,cedulaNb);
 
-        //is id persona valid
+        //is cedula valid
         if((cedulaNb.length() == 10) && (Integer.parseInt(cedulaNb) > 0)){
             //find id persona:
             if (utils.isNetworkAvailable()){
@@ -220,13 +220,17 @@ public class MainActivity extends AppCompatActivity {
             try {
                 return utils.downloadUrl(urls[0]);
             } catch (IOException e) {
-                return "Unable to retrieve web page. URL may be invalid.";
+                return null;
             }
         }
         // onPostExecute displays the results of the AsyncTask.
         @Override
         protected void onPostExecute(String html) {
-            saveIdPersona(html);
+            if (html != null){
+                saveIdPersona(html);
+            } else {
+                stateNetworkOn = false;
+            }
             updateViewValues();
             updateInfo1();
             String idPersona = sharedPref.getString(key_id_persona, defaultIdPersona);
