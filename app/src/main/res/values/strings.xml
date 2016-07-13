@@ -32,6 +32,7 @@
     <string name="key_id_persona">keyIdPersona</string>
     <string name="key_total_multas">keyTotalMulta</string>
     <string name="key_last_update_time">keyLastUpdateTime</string>
+    <string name="key_link_to_xjson_multas_list">keyLinkMultas</string>
 
     //messages:
     <string name="no_connection">No hay conneccion a internet</string>

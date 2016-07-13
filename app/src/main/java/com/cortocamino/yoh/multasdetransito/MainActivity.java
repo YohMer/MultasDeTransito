@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     String key_id_persona, defaultIdPersona;
     String key_total_multas, defaultMultas;
     String key_update_time, default_update_time;
+    String key_link_to_xjson_multas_list;
     boolean stateNetworkOn = false;
     boolean stateValidatingCedula = false;
     boolean stateAccessIdPersona = false;
@@ -53,13 +55,15 @@ public class MainActivity extends AppCompatActivity {
         key_id_persona = getString(R.string.key_id_persona);
         key_total_multas = getString(R.string.key_total_multas);
         key_update_time = getString(R.string.key_last_update_time);
+        key_link_to_xjson_multas_list = getString(R.string.key_link_to_xjson_multas_list);
 
         defaultCedulaNb = getString(R.string.default_cedula_nb);
         defaultIdPersona = getString(R.string.default_id_persona);
         defaultMultas = getString(R.string.default_multas);
         default_update_time = getString(R.string.default_update_time);
 
-        sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        //sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 
         //init alarm:
         Intent alarmIntent = new Intent(MainActivity.this, AlarmReceiver.class);
@@ -187,6 +191,7 @@ public class MainActivity extends AppCompatActivity {
         if (Integer.parseInt(idPersona) > 1000){
             stateAccessIdPersona = true;
             utils.saveSharedSTring(key_id_persona ,idPersona);
+            utils.saveSharedSTring(key_link_to_xjson_multas_list ,idPersona);
             (findViewById(R.id.btn_update)).setVisibility(View.VISIBLE);
         } else {
             stateAccessIdPersona = false;

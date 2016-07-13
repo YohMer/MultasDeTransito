@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.preference.PreferenceManager;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,7 +29,8 @@ public class Utils {
     }
 
     public void saveSharedSTring(String key, String value){
-        SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences sharedPref =
+                PreferenceManager.getDefaultSharedPreferences(activity);
         SharedPreferences.Editor editor = sharedPref.edit();
 
         editor.putString(key ,value);
