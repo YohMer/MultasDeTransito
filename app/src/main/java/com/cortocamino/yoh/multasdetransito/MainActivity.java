@@ -20,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
     private static final boolean DEBUG_FIRST_START = true;
     private static final boolean MY_DEBUG = true;
     private PendingIntent pendingIntent;
-    private Multas multas;
     Utils utils;
 
     @Override
@@ -28,7 +27,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         utils = new Utils(this);
-        multas = new Multas(this);
+
+        Multas.init(this);
+        Multas.update(this);
 
         //init alarm:
         Intent alarmIntent = new Intent(MainActivity.this, AlarmReceiver.class);
@@ -49,20 +50,20 @@ public class MainActivity extends AppCompatActivity {
         utils.saveShared(getString(R.string.key_activity_on), true);
     }
 
-    private void updateView(){
+    private void updateView(String faultMsg){
         updateViewValues();
 
-        updateInfos();
+        ((TextView)findViewById(R.id.info1)).setText(faultMsg);
 
-        if (multas.isUnvalidCedula()){
-            (findViewById(R.id.btn_update)).setVisibility(View.INVISIBLE);
-        } else {
-            (findViewById(R.id.btn_update)).setVisibility(View.VISIBLE);
-        }
+        findViewById(R.id.info1).setVisibility(
+                faultMsg.equals("")?View.INVISIBLE:View.VISIBLE);
+
+        findViewById(R.id.btn_refresh).setVisibility(
+                Multas.isCedulaNbConsistent()?View.VISIBLE:View.INVISIBLE);
     }
     private void updateViewValues(){
         //show cedula Nb:
-        String cedulaNb = multas.getCedulaNb();
+        String cedulaNb = Multas.getCedulaNb();
         if(cedulaNb.equals(getString(R.string.default_cedula_nb))){
             ((EditText) findViewById(R.id.cedulaNb)).setText("");
         } else {
@@ -71,55 +72,43 @@ public class MainActivity extends AppCompatActivity {
 
         //show id persona:
         if (MY_DEBUG){
-            String idPersona = multas.getIdPersona();
+            String idPersona = Multas.getIdPersona();
             ((TextView)findViewById(R.id.debug_id_persona)).setText(idPersona);
         }
 
         //show total multas:
-        String totalStr = multas.getTotalMultas();
+        String totalStr = Multas.getTotalMultas();
         ((TextView)findViewById(R.id.total_multas_value)).setText(totalStr);
 
         //show last update time:
-        String time = multas.getLastUpdateTime();
+        String time = Multas.getLastUpdateTime();
         ((TextView)findViewById(R.id.date_update)).setText(time);
     }
-    private void updateInfos(){
-        //reset message:
-        ((TextView)findViewById(R.id.info1)).setText("");
 
-        if (!multas.isNetworkOn()){
-            ((TextView)findViewById(R.id.info1)).setText(R.string.no_connection);
-            return;
-        }
-        if (multas.isValidatingCedula()){
-            ((TextView)findViewById(R.id.info1)).setText(R.string.msg_validating_cedula);
-            return;
-        }
-        if (!multas.isUnvalidCedula()){
-            ((TextView)findViewById(R.id.info1)).setText(R.string.msg_cedula_not_valid);
-            return;
-        }
-        if (!multas.isMultasFound()){
-            ((TextView)findViewById(R.id.info1)).setText(R.string.msg_multas_not_accessible);
-            return;
-        }
+    public void saveCedula(View view){
+        EditText cedulaEditText = (EditText) findViewById(R.id.cedulaNb);
+        String cedulaNb = cedulaEditText.getText().toString();
+        Multas.changeCedulaNb(this, cedulaNb);
+
+        refresh(view);
     }
 
     public void refresh(View view){
-        (findViewById(R.id.btn_update)).setVisibility(View.INVISIBLE);
+        findViewById(R.id.info1).setVisibility(View.INVISIBLE);
+        (findViewById(R.id.btn_refresh)).setVisibility(View.INVISIBLE);
         new updateAll().execute("");
     }
 
     private class updateAll extends AsyncTask<String, Void, String>{
         @Override
         protected String doInBackground(String empty[]) {
-            multas.update(MainActivity.this);
+            Multas.update(MainActivity.this);
             return ""; //needed for onPostExecute
         }
 
         @Override
-        protected void onPostExecute(String Infos) {
-            updateView();
+        protected void onPostExecute(String faultMsg) {
+            updateView(faultMsg);
         }
     }
 
