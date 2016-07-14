@@ -122,7 +122,7 @@
                 android:text="@string/update"
                 android:id="@+id/btn_update"
                 android:layout_gravity="center"
-                android:onClick="getMultas" />
+                android:onClick="refresh" />
 
             <TextView
                 android:layout_width="wrap_content"
