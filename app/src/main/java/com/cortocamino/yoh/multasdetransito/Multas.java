@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
@@ -19,16 +20,16 @@ public class Multas {
 
     private static Context mContext;
     private static final String DEBUG_TAG = "DEBUG";
-    private static final String ERROR = "error";
+    //private static final String ERROR = "error";
     private static final boolean DEBUG_FIRST_START = true;
-    private static final boolean MY_DEBUG = true;
+    //private static final boolean MY_DEBUG = true;
     private static Utils utils;
     private static SharedPreferences sharedPref;
 
     private static String defaultCedulaNb;
-    private static boolean cedulaNbValid;
+    //private static boolean cedulaNbValid;
     private static String defaultIdPersona;
-    private static boolean idPersonaValid;
+    //private static boolean idPersonaValid;
     private static String defaultMultas;
     private static String default_update_time;
 
@@ -42,13 +43,6 @@ public class Multas {
     private static String link_to_xjson_multas_list;
 
     private static boolean initDone = false;
-    private static boolean NetworkOn = false;
-    private static boolean ValidatingCedula = false;
-    private static boolean unvalidCedula = true;
-    private static boolean multasFound = false;
-    //private static String edulaNb, idPersona, totalMultas, lastUpdateTime;
-
-    private static String onUseBy = "";
     
     public static void init(Context context){
         mContext = context;
@@ -98,15 +92,15 @@ public class Multas {
     }
     public static String update(Context mContext){
         if (!isInitDone()){
-            return null;//todo: throw an exception
+            return null;
         }
-
-        String idPersona = "";
-        String cedulaNb = sharedPref.getString(key_cedula,  defaultCedulaNb);
 
         if(!isCedulaNbConsistent()){
             return "cedula nbr not consistent"; //todo: Exception
         }
+
+        String idPersona = "";
+        String cedulaNb = sharedPref.getString(key_cedula,  defaultCedulaNb);
 
         //is cedula validated? (if id persona is validated so cedula nb)
         if(isIdPersonaValidated()) {
@@ -118,21 +112,17 @@ public class Multas {
             }
 
             String url = String.format(link_to_multas_page_list, cedulaNb);
-
             String html;
             try{
                 html = utils.downloadUrl(url);
-            }
-            catch (Exception e){
+            } catch (IOException e){
                 return mContext.getString(R.string.no_connection);
-                //todo: is it possible to have this exception handle by the method?
             }
 
             try{
                 idPersona = extractIdPersona(mContext, html);
-            }
-            catch (Exception e){
-
+            } catch (WrongIdPersonaException e) {
+                return e.getMessage();
             }
         }
 
@@ -142,7 +132,7 @@ public class Multas {
                 idPersona, cedulaNb, System.currentTimeMillis());
 
         if (!utils.isNetworkAvailable()){
-            return mContext.getString(R.string.no_connection);//todo? exception?
+            return mContext.getString(R.string.no_connection);
         }
 
         String json;
@@ -151,15 +141,16 @@ public class Multas {
         }
         catch (Exception e){
             return mContext.getString(R.string.no_connection);
-            //todo: is it possible to have this exception handle by the method?
         }
 
         try{
             saveMultas(mContext, json);
         }
-        catch (Exception e){
-            //todo: is it possible to have this exception handle by the method?
+        catch (JSONException e){
+            Log.d("JSONException", e.getMessage());
+            return mContext.getString(R.string.msg_json_not_valid);
         }
+
         return "Done";
     }
 
@@ -171,9 +162,6 @@ public class Multas {
     }
     public static boolean isIdPersonaValidated() {
         return sharedPref.getBoolean(key_id_persona_validated,  false);
-    }
-    public static boolean isMultasFound() {
-        return multasFound;
     }
 
     public static String getCedulaNb() {
@@ -201,8 +189,8 @@ public class Multas {
         resetAllSharedButCedulaNb();
     }
 
-
-    private static String extractIdPersona(Context mContext, String html) {
+    private static String extractIdPersona(Context mContext, String html)
+            throws WrongIdPersonaException{
         //extract id persona:
         String preIdPersona = mContext.getString(R.string.previous_id_persona);
         int startPosition = html.indexOf(preIdPersona);
@@ -213,13 +201,15 @@ public class Multas {
         Log.d(DEBUG_TAG, "id persona: " + idPersona);
 
         if (Integer.parseInt(idPersona) < 1000){
-            return ""; //todo: throw an exception
+            throw new WrongIdPersonaException(
+                    mContext.getString(R.string.msg_cedula_not_valid)); //todo: throw an exception
         }
         utils.saveShared(key_id_persona ,idPersona);
         utils.saveShared(key_id_persona_validated, true);
         return idPersona;
     }
-    private static void saveMultas(Context mContext, String jsonTxt){
+    private static void saveMultas(Context mContext, String jsonTxt)
+            throws JSONException{
         Utils utils = new Utils(mContext);
         try{
             float total = 0;
@@ -249,7 +239,8 @@ public class Multas {
                     mContext.getString(R.string.key_last_update_time), dateStr);
 
         }catch(JSONException e){
-            //throw exception
+            throw e;
         }
     }
 }
+

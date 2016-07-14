@@ -55,8 +55,12 @@ public class MainActivity extends AppCompatActivity {
 
         ((TextView)findViewById(R.id.info1)).setText(faultMsg);
 
-        findViewById(R.id.info1).setVisibility(
-                faultMsg.equals("")?View.INVISIBLE:View.VISIBLE);
+        if(faultMsg.equals("")){
+            findViewById(R.id.info1).setVisibility(View.INVISIBLE);
+        } else {
+            findViewById(R.id.info1).setVisibility(View.VISIBLE);
+        }
+
 
         findViewById(R.id.btn_refresh).setVisibility(
                 Multas.isCedulaNbConsistent()?View.VISIBLE:View.INVISIBLE);
@@ -102,8 +106,7 @@ public class MainActivity extends AppCompatActivity {
     private class updateAll extends AsyncTask<String, Void, String>{
         @Override
         protected String doInBackground(String empty[]) {
-            Multas.update(MainActivity.this);
-            return ""; //needed for onPostExecute
+            return Multas.update(MainActivity.this);
         }
 
         @Override
