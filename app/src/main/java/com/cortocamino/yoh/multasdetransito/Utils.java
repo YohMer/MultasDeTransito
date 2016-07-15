@@ -29,6 +29,11 @@ public class Utils {
         editor = sharedPref.edit();
     }
 
+    public void saveShared(String key, Float value){
+        editor.putFloat(key ,value);
+        editor.apply();
+    }
+
     public void saveShared(String key, String value){
         editor.putString(key ,value);
         editor.apply();

@@ -35,6 +35,7 @@
     <string name="key_full_link_to_xjson_multas_list">keyLinkMultas</string>
     <string name="key_activity_on">activityState</string>
     <string name="key_no_network">noNetwork</string>
+    <string name="key_last_total">lastTotal</string>
 
     //messages:
     <string name="no_connection">No hay conneccion a internet</string>

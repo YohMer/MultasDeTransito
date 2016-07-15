@@ -38,6 +38,7 @@ public class Multas {
     private static String key_id_persona;
     private static String key_id_persona_validated;
     private static String key_total_multas;
+    private static String key_last_total;
     private static String key_update_time;
     private static String link_to_multas_page_list;
     private static String link_to_xjson_multas_list;
@@ -60,6 +61,7 @@ public class Multas {
         key_id_persona = mContext.getString(R.string.key_id_persona);
         key_id_persona_validated = mContext.getString(R.string.key_id_persona_validated);
         key_total_multas = mContext.getString(R.string.key_total_multas);
+        key_last_total = mContext.getString(R.string.key_last_total);
         key_update_time = mContext.getString(R.string.key_last_update_time);
         link_to_multas_page_list = mContext.getString(R.string.link_to_multas_page_list);
         link_to_xjson_multas_list =
@@ -85,8 +87,6 @@ public class Multas {
             }
             
         }else{
-            utils.saveShared(key_cedula_nb_consistent, false);
-            utils.saveShared(key_id_persona, defaultCedulaNb);
             resetAllShared();
         }
     }
@@ -181,11 +181,12 @@ public class Multas {
         utils.saveShared(key_id_persona, defaultIdPersona);
         utils.saveShared(key_total_multas, defaultMultas);
         utils.saveShared(key_update_time, default_update_time);
-        utils.saveShared(key_cedula_nb_consistent, true);
         utils.saveShared(key_id_persona_validated, false);
+        utils.saveShared(key_last_total, 0.0f);
     }
     private static void resetAllShared(){
         utils.saveShared(key_cedula, defaultCedulaNb);
+        utils.saveShared(key_cedula_nb_consistent, false);
         resetAllSharedButCedulaNb();
     }
 
