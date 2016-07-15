@@ -5,9 +5,11 @@ import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
@@ -117,7 +119,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void startAlarm() {
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        int interval = 20000;
+        String key_alarm_interval = getString(R.string.key_alarm_interval);
+        SharedPreferences sharedPref =
+                PreferenceManager.getDefaultSharedPreferences(this);
+        long interval =
+                sharedPref.getLong(key_alarm_interval, Defaults.defaultAlarmInterval);
 
         manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
                 interval, pendingIntent);

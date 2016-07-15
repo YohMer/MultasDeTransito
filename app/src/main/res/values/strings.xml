@@ -36,6 +36,8 @@
     <string name="key_activity_on">activityState</string>
     <string name="key_no_network">noNetwork</string>
     <string name="key_last_total">lastTotal</string>
+    <string name="key_alarm_interval">alarmInterval</string>
+    <string name="key_default_alarm_interval">defaultAlarmInterval</string>
 
     //messages:
     <string name="no_connection">No hay conneccion a internet</string>

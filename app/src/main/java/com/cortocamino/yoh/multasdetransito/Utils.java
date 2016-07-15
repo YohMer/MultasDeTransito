@@ -33,12 +33,14 @@ public class Utils {
         editor.putFloat(key ,value);
         editor.apply();
     }
-
+    public void saveShared(String key, Long value){
+        editor.putLong(key ,value);
+        editor.apply();
+    }
     public void saveShared(String key, String value){
         editor.putString(key ,value);
         editor.apply();
     }
-
     public void saveShared(String key, Boolean value){
         editor.putBoolean(key ,value);
         editor.apply();
