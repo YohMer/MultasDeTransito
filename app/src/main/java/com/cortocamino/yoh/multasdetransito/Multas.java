@@ -2,6 +2,7 @@ package com.cortocamino.yoh.multasdetransito;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.NetworkOnMainThreadException;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -115,7 +116,7 @@ public class Multas {
             String html;
             try{
                 html = utils.downloadUrl(url);
-            } catch (IOException e){
+            } catch (IOException | NetworkOnMainThreadException e){
                 return mContext.getString(R.string.no_connection);
             }
 
