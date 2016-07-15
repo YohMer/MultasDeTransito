@@ -10,14 +10,15 @@ import android.support.v4.app.NotificationCompat;
 /**
  * Created by yoh on 7/15/16.
  */
-public class SimpleNotification {
+public class SimpleNotificationBuilder extends NotificationCompat.Builder{
 
-    public static void call(Context mContext, int mId, String title, String contentTxt){
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(mContext)
-                        .setSmallIcon(R.drawable.policeman_head)
-                        .setContentTitle(title)
-                        .setContentText(contentTxt);
+    SimpleNotificationBuilder(Context mContext, int mId, String title, String contentTxt){
+        super(mContext);
+        this.setSmallIcon(R.drawable.policeman_head)
+                .setContentTitle(title)
+                .setContentText(contentTxt)
+                .setAutoCancel(true);
+
 // Creates an explicit intent for an Activity in your app
         Intent resultIntent = new Intent(mContext, MainActivity.class);
 
@@ -35,10 +36,10 @@ public class SimpleNotification {
                         0,
                         PendingIntent.FLAG_UPDATE_CURRENT
                 );
-        mBuilder.setContentIntent(resultPendingIntent);
+        this.setContentIntent(resultPendingIntent);
         NotificationManager mNotificationManager =
                 (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
 // mId allows you to update the notification later on.
-        mNotificationManager.notify(mId, mBuilder.build());
+        mNotificationManager.notify(mId, this.build());
     }
 }

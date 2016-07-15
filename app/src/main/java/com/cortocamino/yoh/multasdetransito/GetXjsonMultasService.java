@@ -34,7 +34,7 @@ public class GetXjsonMultasService extends IntentService {
 
         if (!totalMultas.equals(lastTotal)) {
             Toast.makeText(this, "show new notification", Toast.LENGTH_SHORT).show();
-            SimpleNotification.call(this, 0, "actualizacion de multas",
+            new SimpleNotificationBuilder(this, 0, "actualizacion de multas",
                     "nuevo total: " + totalMultasTxt);
         } else {
             Toast.makeText(this, "notification already shown", Toast.LENGTH_SHORT).show();
