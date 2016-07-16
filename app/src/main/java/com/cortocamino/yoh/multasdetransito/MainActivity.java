@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -97,11 +98,15 @@ public class MainActivity extends AppCompatActivity {
 
         refresh(view);
     }
-
     public void refresh(View view){
         findViewById(R.id.info1).setVisibility(View.INVISIBLE);
         (findViewById(R.id.btn_refresh)).setVisibility(View.INVISIBLE);
         new updateAll().execute("");
+    }
+    public void goToGovWebSite(View view){
+        Uri uri = Uri.parse(getString(R.string.link_to_gov));
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(intent);
     }
 
     private class updateAll extends AsyncTask<String, Void, String>{
