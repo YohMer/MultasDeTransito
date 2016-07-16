@@ -18,7 +18,6 @@ import java.util.Locale;
  */
 public class Multas {
 
-    private static Context mContext;
     private static Utils utils;
     private static SharedPreferences sharedPref;
 
@@ -37,12 +36,10 @@ public class Multas {
     private static String key_last_total;
     private static String key_update_time;
     private static String link_to_multas_page_list;
-    private static String link_to_xjson_multas_list;
 
     private static boolean initDone = false;
     
-    public static void init(Context context){
-        mContext = context;
+    public static void init(Context mContext){
         utils = new Utils(mContext);
 
         //init:
@@ -60,8 +57,6 @@ public class Multas {
         key_last_total = mContext.getString(R.string.key_last_total);
         key_update_time = mContext.getString(R.string.key_last_update_time);
         link_to_multas_page_list = mContext.getString(R.string.link_to_multas_page_list);
-        link_to_xjson_multas_list =
-                mContext.getString(R.string.link_to_xjson_multas_list);
 
         initDone = true;
 
@@ -95,7 +90,7 @@ public class Multas {
             return "cedula nbr not consistent"; //todo: Exception
         }
 
-        String idPersona = "";
+        String idPersona;
         String cedulaNb = sharedPref.getString(key_cedula,  defaultCedulaNb);
 
         //is cedula validated? (if id persona is validated so cedula nb)
@@ -208,36 +203,25 @@ public class Multas {
     private static void saveMultas(Context mContext, String jsonTxt)
             throws JSONException{
         Utils utils = new Utils(mContext);
-        try{
-            float total = 0;
-            String totalStr, buffer;
-            int length;
-
-            JSONObject json = new JSONObject(jsonTxt);
-            JSONArray rows = json.getJSONArray("rows");
-            JSONObject obj;
-
-            length = rows.length();
-
-            for(int i = 0; i < length; i++){
-                obj = (JSONObject) rows.get(i);
-                buffer = ((JSONArray) obj.get("cell")).getString(16);
-                total += Float.parseFloat(buffer);
-            }
-
-            totalStr = String.format("%1.2f", total);
-
-            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", new Locale("es-EC"));
-            String dateStr = df.format(System.currentTimeMillis());
-
-            utils.saveShared(
-                    mContext.getString(R.string.key_total_multas), totalStr);
-            utils.saveShared(
-                    mContext.getString(R.string.key_last_update_time), dateStr);
-
-        }catch(JSONException e){
-            throw e;
+        float total = 0;
+        String totalStr, buffer;
+        int length;
+        JSONObject json = new JSONObject(jsonTxt);
+        JSONArray rows = json.getJSONArray("rows");
+        JSONObject obj;
+        length = rows.length();
+        for(int i = 0; i < length; i++){
+            obj = (JSONObject) rows.get(i);
+            buffer = ((JSONArray) obj.get("cell")).getString(16);
+            total += Float.parseFloat(buffer);
         }
+        totalStr = String.format("%s", total);
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", new Locale("es-EC"));
+        String dateStr = df.format(System.currentTimeMillis());
+        utils.saveShared(
+                mContext.getString(R.string.key_total_multas), totalStr);
+        utils.saveShared(
+                mContext.getString(R.string.key_last_update_time), dateStr);
     }
 }
 

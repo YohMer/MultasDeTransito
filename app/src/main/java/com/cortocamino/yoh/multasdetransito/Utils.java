@@ -9,8 +9,6 @@ import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.regex.Matcher;
@@ -73,7 +71,6 @@ public class Utils {
         InputStream is = null;
         // Only display the first 500 characters of the retrieved
         // web page content.
-        int len = 20000;
 
         try {
             URL url = new URL(myurl);
@@ -84,7 +81,7 @@ public class Utils {
             conn.setDoInput(true);
             // Starts the query
             conn.connect();
-            int response = conn.getResponseCode();
+            conn.getResponseCode();
             is = conn.getInputStream();
 
             // Convert the InputStream into a string
@@ -94,15 +91,6 @@ public class Utils {
                 is.close();
             }
         }
-    }
-
-    // Reads an InputStream and converts it to a String.
-    public String readIt(InputStream stream, int len) throws IOException {
-        Reader reader;
-        reader = new InputStreamReader(stream, "UTF-8");
-        char[] buffer = new char[len];
-        reader.read(buffer);
-        return new String(buffer);
     }
 
     static void debugToast(Context mContext, String msg){

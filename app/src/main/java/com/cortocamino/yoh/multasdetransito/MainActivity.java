@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         utils = new Utils(this);
 
         if (Defaults.MY_DEBUG)
-            ((TextView)findViewById(R.id.debug_id_persona)).setVisibility(View.VISIBLE);
+            findViewById(R.id.debug_id_persona).setVisibility(View.VISIBLE);
 
 
         Multas.init(this);

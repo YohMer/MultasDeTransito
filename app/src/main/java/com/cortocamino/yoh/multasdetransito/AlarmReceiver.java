@@ -6,13 +6,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.widget.Toast;
 
 /**
  * Created by yoh on 7/11/16.
  */
 public class AlarmReceiver extends BroadcastReceiver {
-    private static final String DEBUG_TAG = "DEBUG";
 
     @Override
     public void onReceive(Context context, Intent intent) {
