@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.NetworkOnMainThreadException;
 import android.preference.PreferenceManager;
 
 import java.io.IOException;
@@ -69,7 +68,7 @@ public class Utils {
     // Given a URL, establishes an HttpUrlConnection and retrieves
     // the web page content as a InputStream, which it returns as
     // a string.
-    public String downloadUrl(String myurl) throws IOException, NetworkOnMainThreadException {
+    public String downloadUrl(String myurl) throws IOException {
         InputStream is = null;
         // Only display the first 500 characters of the retrieved
         // web page content.

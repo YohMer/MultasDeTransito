@@ -17,7 +17,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/ask_cedula_nb"
             android:paddingTop="20dp"
             />
@@ -36,14 +36,16 @@
                 android:numeric="integer"
                 android:maxLength="10"
                 android:hint="@string/default_cedula_nb"
-                />
+                android:textIsSelectable="true"
+                android:textSize="50sp"/>
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:id="@+id/button"
                 android:text="@string/valid"
-                android:onClick="saveCedula" />
+                android:onClick="saveCedula"
+                android:textSize="30sp"/>
 
         </LinearLayout>
 
@@ -64,7 +66,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/total_multas"
                 android:id="@+id/textView2"
                 />
@@ -72,7 +74,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/default_total_multas"
                 android:id="@+id/total_multas_value"
                 android:paddingLeft="10dp"
@@ -82,7 +84,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/devise"
                 android:id="@+id/textView3"
                 android:textStyle="bold"/>
@@ -97,7 +99,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearance"
                 android:text="@string/last_update"
                 android:id="@+id/textView4"
                 />
@@ -117,12 +119,13 @@
             android:layout_weight="1">
 
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="94dp"
                 android:text="@string/update"
                 android:id="@+id/btn_refresh"
                 android:layout_gravity="center"
-                android:onClick="refresh" />
+                android:onClick="refresh"
+                android:textSize="25sp"/>
 
             <TextView
                 android:layout_width="wrap_content"

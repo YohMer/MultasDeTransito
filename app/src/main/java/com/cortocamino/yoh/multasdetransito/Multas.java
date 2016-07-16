@@ -2,7 +2,6 @@ package com.cortocamino.yoh.multasdetransito;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.NetworkOnMainThreadException;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -109,15 +108,15 @@ public class Multas {
         }else{
             //find id cedula
             if (!utils.isNetworkAvailable()){
-                return mContext.getString(R.string.no_connection);//todo? exception?
+                return mContext.getString(R.string.no_internet_connection);//todo? exception?
             }
 
             String url = String.format(link_to_multas_page_list, cedulaNb);
             String html;
             try{
                 html = utils.downloadUrl(url);
-            } catch (IOException | NetworkOnMainThreadException e){
-                return mContext.getString(R.string.no_connection);
+            } catch (IOException e){
+                return mContext.getString(R.string.no_server_connection);
             }
 
             try{
@@ -133,7 +132,7 @@ public class Multas {
                 idPersona, cedulaNb, System.currentTimeMillis());
 
         if (!utils.isNetworkAvailable()){
-            return mContext.getString(R.string.no_connection);
+            return mContext.getString(R.string.no_internet_connection);
         }
 
         String json;
@@ -141,7 +140,7 @@ public class Multas {
             json = utils.downloadUrl(multasUrl);
         }
         catch (Exception e){
-            return mContext.getString(R.string.no_connection);
+            return mContext.getString(R.string.no_internet_connection);
         }
 
         try{

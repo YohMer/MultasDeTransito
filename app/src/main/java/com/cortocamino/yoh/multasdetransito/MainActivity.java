@@ -31,13 +31,12 @@ public class MainActivity extends AppCompatActivity {
         utils = new Utils(this);
 
         Multas.init(this);
-        Multas.update(this);
+        new updateAll().execute("");
 
         //init alarm:
         Intent alarmIntent = new Intent(MainActivity.this, AlarmReceiver.class);
         pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, alarmIntent, 0);
         startAlarm();
-        updateViewValues();
     }
 
     @Override
