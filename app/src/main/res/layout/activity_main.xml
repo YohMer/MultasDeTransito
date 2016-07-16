@@ -20,7 +20,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/ask_cedula_nb"
             android:paddingTop="20dp"
-            android:textColor="@color/black" />
+            />
 
         <LinearLayout
             android:orientation="horizontal"
@@ -36,7 +36,7 @@
                 android:numeric="integer"
                 android:maxLength="10"
                 android:hint="@string/default_cedula_nb"
-                android:textColor="@color/black" />
+                />
 
             <Button
                 android:layout_width="wrap_content"
@@ -67,7 +67,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/total_multas"
                 android:id="@+id/textView2"
-                android:textColor="@color/black" />
+                />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -76,8 +76,8 @@
                 android:text="@string/default_total_multas"
                 android:id="@+id/total_multas_value"
                 android:paddingLeft="10dp"
-                android:textColor="@color/black"
-                android:textIsSelectable="true" />
+                android:textIsSelectable="true"
+                android:textStyle="bold"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -85,7 +85,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/devise"
                 android:id="@+id/textView3"
-                android:textColor="@color/black" />
+                android:textStyle="bold"/>
         </LinearLayout>
 
         <LinearLayout
@@ -100,7 +100,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/last_update"
                 android:id="@+id/textView4"
-                android:textColor="@color/black" />
+                />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -108,7 +108,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Medium Text"
                 android:id="@+id/date_update"
-                android:textColor="@color/black" />
+                />
         </LinearLayout>
 
         <FrameLayout
