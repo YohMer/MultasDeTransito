@@ -18,7 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    private static final boolean MY_DEBUG = true;
     private PendingIntent pendingIntent;
     Utils utils;
 
@@ -27,6 +26,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         utils = new Utils(this);
+
+        if (Defaults.MY_DEBUG)
+            ((TextView)findViewById(R.id.debug_id_persona)).setVisibility(View.VISIBLE);
+
 
         Multas.init(this);
         new updateAll().execute("");
@@ -75,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //show id persona:
-        if (MY_DEBUG){
+        if (Defaults.MY_DEBUG){
             String idPersona = Multas.getIdPersona();
             ((TextView)findViewById(R.id.debug_id_persona)).setText(idPersona);
         }
