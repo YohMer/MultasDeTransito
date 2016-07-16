@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.widget.Toast;
 
 /**
  * Created by yoh on 7/13/16.
@@ -32,11 +31,11 @@ public class GetXjsonMultasService extends IntentService {
         Float totalMultas = Float.parseFloat(totalMultasTxt);
 
         if (!totalMultas.equals(lastTotal)) {
-            Toast.makeText(this, "show new notification", Toast.LENGTH_SHORT).show();
+            Utils.debugToast(this, "show new notification");
             new SimpleNotificationBuilder(this, 0, "actualizacion de multas",
                     "nuevo total: " + totalMultasTxt);
         } else {
-            Toast.makeText(this, "notification already shown", Toast.LENGTH_SHORT).show();
+            Utils.debugToast(this, "notification already shown");
         }
         utils.saveShared(key_last_total, totalMultas);
     }

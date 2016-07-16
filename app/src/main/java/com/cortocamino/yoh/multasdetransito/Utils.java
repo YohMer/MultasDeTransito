@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -102,6 +103,12 @@ public class Utils {
         char[] buffer = new char[len];
         reader.read(buffer);
         return new String(buffer);
+    }
+
+    static void debugToast(Context mContext, String msg){
+        if (Defaults.MY_DEBUG){
+            Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
+        }
     }
 
     static String convertStreamToString(java.io.InputStream is) {

@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.widget.Toast;
 
 /**
  * Created by yoh on 7/11/16.
@@ -34,7 +33,7 @@ public class DeviceBootReceiver extends BroadcastReceiver {
             manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
                     interval, pendingIntent);
 
-            Toast.makeText(mContext, "Alarm Set From boot receiver", Toast.LENGTH_SHORT).show();
+            Utils.debugToast(mContext, "Alarm Set From boot receiver");
         }
     }
 }

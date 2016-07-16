@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             findViewById(R.id.info1).setVisibility(View.VISIBLE);
         }
+        Toast.makeText(this, faultMsg, Toast.LENGTH_SHORT).show();
 
 
         findViewById(R.id.btn_refresh).setVisibility(
@@ -128,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
 
         manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
                 interval, pendingIntent);
-        Toast.makeText(this, "Alarm Set from startAlarm", Toast.LENGTH_SHORT).show();
+        Utils.debugToast(this,"Alarm Set from startAlarm");
 
         //enable the schedule alarm
         ComponentName alarmReceiver = new ComponentName(MainActivity.this,
