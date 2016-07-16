@@ -29,7 +29,7 @@ public class DeviceBootReceiver extends BroadcastReceiver {
 
             String key_alarm_interval = mContext.getString(R.string.key_alarm_interval);
             long interval =
-                    sharedPref.getLong(key_alarm_interval, Defaults.defaultAlarmInterval);
+                    sharedPref.getLong(key_alarm_interval, Defaults.DEFAULT_ALARM_INTERVAL);
 
             manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
                     interval, pendingIntent);

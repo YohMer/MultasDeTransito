@@ -11,7 +11,6 @@ import android.widget.Toast;
  * Created by yoh on 7/13/16.
  */
 public class GetXjsonMultasService extends IntentService {
-    private static final String DEBUG_TAG = "DEBUG";
 
     public GetXjsonMultasService() {
         super("GetXjsonMultasService");
@@ -28,7 +27,7 @@ public class GetXjsonMultasService extends IntentService {
 
         Multas.update(this);
         String totalMultasTxt = sharedPref.getString(key_total_multas, "0");
-        Log.d(DEBUG_TAG, "multas: " + totalMultasTxt);
+        Log.d(Defaults.DEBUG_TAG, "multas: " + totalMultasTxt);
 
         Float totalMultas = Float.parseFloat(totalMultasTxt);
 

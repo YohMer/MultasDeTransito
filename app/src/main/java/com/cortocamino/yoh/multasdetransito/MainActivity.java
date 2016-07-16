@@ -18,9 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String DEBUG_TAG = "DEBUG";
-    private static final String ERROR = "error";
-    private static final boolean DEBUG_FIRST_START = true;
     private static final boolean MY_DEBUG = true;
     private PendingIntent pendingIntent;
     Utils utils;
@@ -127,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPref =
                 PreferenceManager.getDefaultSharedPreferences(this);
         long interval =
-                sharedPref.getLong(key_alarm_interval, Defaults.defaultAlarmInterval);
+                sharedPref.getLong(key_alarm_interval, Defaults.DEFAULT_ALARM_INTERVAL);
 
         manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
                 interval, pendingIntent);

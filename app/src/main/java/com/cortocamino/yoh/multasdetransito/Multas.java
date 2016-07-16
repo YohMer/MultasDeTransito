@@ -19,10 +19,6 @@ import java.util.Locale;
 public class Multas {
 
     private static Context mContext;
-    private static final String DEBUG_TAG = "DEBUG";
-    //private static final String ERROR = "error";
-    private static final boolean DEBUG_FIRST_START = true;
-    //private static final boolean MY_DEBUG = true;
     private static Utils utils;
     private static SharedPreferences sharedPref;
 
@@ -69,7 +65,7 @@ public class Multas {
 
         initDone = true;
 
-        if (DEBUG_FIRST_START)
+        if (Defaults.DEBUG_FIRST_START)
             mContext.getSharedPreferences("YOUR_PREFS", 0).edit().clear().commit();
     }
 
@@ -199,7 +195,7 @@ public class Multas {
         int endPosition = startPosition + 15;
         String idPersonaStr = html.substring(startPosition, endPosition);
         String idPersona = utils.extractFirstNbAsString(idPersonaStr);
-        Log.d(DEBUG_TAG, "id persona: " + idPersona);
+        Log.d(Defaults.DEBUG_TAG, "id persona: " + idPersona);
 
         if (Integer.parseInt(idPersona) < 1000){
             throw new WrongIdPersonaException(
