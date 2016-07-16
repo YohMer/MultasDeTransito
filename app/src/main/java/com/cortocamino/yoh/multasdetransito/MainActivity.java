@@ -12,7 +12,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,7 +33,9 @@ public class MainActivity extends AppCompatActivity {
         if (Defaults.MY_DEBUG)
             findViewById(R.id.debug_id_persona).setVisibility(View.VISIBLE);
 
-
+//        if(Multas.isCedulaNbConsistent()){
+//            showSoftKeyboard(findViewById(R.id.mainLayout));
+//        }
         Multas.init(this);
         new updateAll().execute("");
 
@@ -38,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
         Intent alarmIntent = new Intent(MainActivity.this, AlarmReceiver.class);
         pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, alarmIntent, 0);
         startAlarm();
+
+        startListenerKeyboard(this, (EditText) findViewById(R.id.cedulaNb));
     }
 
     @Override
@@ -51,6 +58,40 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         utils.saveShared(getString(R.string.key_activity_on), true);
     }
+
+    public void showSoftKeyboard(View view){
+        if(view.requestFocus()){
+            InputMethodManager imm =(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(view,InputMethodManager.SHOW_IMPLICIT);
+        }
+    }
+
+    public void hideSoftKeyboard(View view){
+        InputMethodManager imm =(InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    public void startListenerKeyboard(final Context context, final EditText editText){
+        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView view, int actionId, KeyEvent event) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_SEND) {
+                    boolean result =
+                            Multas.changeCedulaNb(context, editText.getText().toString());
+
+                    if (result){
+                        hideSoftKeyboard(view);
+                    }
+                    handled = true;
+
+                    refresh(view);
+                }
+                return handled;
+            }
+        });
+    }
+
 
     private void updateView(String faultMsg){
         updateViewValues();

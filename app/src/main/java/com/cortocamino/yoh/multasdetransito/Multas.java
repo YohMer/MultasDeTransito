@@ -64,7 +64,7 @@ public class Multas {
             mContext.getSharedPreferences("YOUR_PREFS", 0).edit().clear().commit();
     }
 
-    public static void changeCedulaNb(Context mcontext, String cedulaNb){
+    public static Boolean changeCedulaNb(Context mcontext, String cedulaNb){
         Utils utils = new Utils(mcontext);
         
         if((cedulaNb.length() == 10) && (Integer.parseInt(cedulaNb) > 0)) {
@@ -76,9 +76,11 @@ public class Multas {
                 utils.saveShared(key_cedula, cedulaNb);
                 resetAllSharedButCedulaNb();
             }
+            return true;
             
         }else{
             resetAllShared();
+            return false;
         }
     }
     public static String update(Context mContext){
