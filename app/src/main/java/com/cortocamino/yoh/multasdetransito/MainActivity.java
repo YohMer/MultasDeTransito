@@ -95,23 +95,24 @@ public class MainActivity extends AppCompatActivity {
     private void updateView(String faultMsg){
         updateViewValues();
 
+        //show fault msg only if there is a fault:
         ((TextView)findViewById(R.id.info1)).setText(faultMsg);
-        switch (faultMsg){
-            case "Done":
-                findViewById(R.id.info1).setVisibility(View.INVISIBLE);
-                break;
-            default:
-                findViewById(R.id.info1).setVisibility(View.VISIBLE);
+        if (faultMsg.equals(getString(R.string.done))){
+            findViewById(R.id.info1).setVisibility(View.INVISIBLE);
+        } else {
+            findViewById(R.id.info1).setVisibility(View.VISIBLE);
         }
+
+        //remove fault msg after 5s
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                // Do something after 5s = 5000ms
                 findViewById(R.id.info1).setVisibility(View.INVISIBLE);
             }
         }, 5000);
 
+        //show actualizar only if cedula can be valid:
         findViewById(R.id.btn_refresh).setVisibility(
                 Multas.isCedulaNbConsistent()?View.VISIBLE:View.INVISIBLE);
     }

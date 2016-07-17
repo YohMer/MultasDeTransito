@@ -89,7 +89,7 @@ public class Multas {
         }
 
         if(!isCedulaNbConsistent()){
-            return "cedula nbr not consistent"; //todo: Exception
+            return mContext.getString(R.string.msg_cedula_not_valid); //todo: Exception
         }
 
         String idPersona;
@@ -144,7 +144,7 @@ public class Multas {
             return mContext.getString(R.string.msg_json_not_valid);
         }
 
-        return "Done";
+        return mContext.getString(R.string.done);
     }
 
     public static boolean isInitDone() {
