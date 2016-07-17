@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
@@ -18,7 +19,6 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     private PendingIntent pendingIntent;
@@ -92,19 +92,25 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
     private void updateView(String faultMsg){
         updateViewValues();
 
         ((TextView)findViewById(R.id.info1)).setText(faultMsg);
-
-        if(faultMsg.equals("")){
-            findViewById(R.id.info1).setVisibility(View.INVISIBLE);
-        } else {
-            findViewById(R.id.info1).setVisibility(View.VISIBLE);
+        switch (faultMsg){
+            case "Done":
+                findViewById(R.id.info1).setVisibility(View.INVISIBLE);
+                break;
+            default:
+                findViewById(R.id.info1).setVisibility(View.VISIBLE);
         }
-        Toast.makeText(this, faultMsg, Toast.LENGTH_SHORT).show();
-
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Do something after 5s = 5000ms
+                findViewById(R.id.info1).setVisibility(View.INVISIBLE);
+            }
+        }, 5000);
 
         findViewById(R.id.btn_refresh).setVisibility(
                 Multas.isCedulaNbConsistent()?View.VISIBLE:View.INVISIBLE);
