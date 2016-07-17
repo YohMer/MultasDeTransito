@@ -19,8 +19,4 @@ public class WrongIdPersonaException extends Exception {
     public WrongIdPersonaException(Throwable cause) {
         super(cause);
     }
-
-//    public WrongIdPersonaException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-//        super(message, cause, enableSuppression, writableStackTrace);
-//    }
 }

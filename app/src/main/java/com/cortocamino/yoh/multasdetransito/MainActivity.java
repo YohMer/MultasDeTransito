@@ -33,9 +33,6 @@ public class MainActivity extends AppCompatActivity {
         if (Defaults.MY_DEBUG)
             findViewById(R.id.debug_id_persona).setVisibility(View.VISIBLE);
 
-//        if(Multas.isCedulaNbConsistent()){
-//            showSoftKeyboard(findViewById(R.id.mainLayout));
-//        }
         Multas.init(this);
         new updateAll().execute("");
 
@@ -140,13 +137,6 @@ public class MainActivity extends AppCompatActivity {
         ((TextView)findViewById(R.id.date_update)).setText(time);
     }
 
-    public void saveCedula(View view){
-        EditText cedulaEditText = (EditText) findViewById(R.id.cedulaNb);
-        String cedulaNb = cedulaEditText.getText().toString();
-        Multas.changeCedulaNb(this, cedulaNb);
-
-        refresh(view);
-    }
     public void refresh(View view){
         findViewById(R.id.info1).setVisibility(View.INVISIBLE);
         (findViewById(R.id.btn_refresh)).setVisibility(View.INVISIBLE);

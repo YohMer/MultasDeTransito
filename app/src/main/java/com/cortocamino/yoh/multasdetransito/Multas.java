@@ -89,7 +89,7 @@ public class Multas {
         }
 
         if(!isCedulaNbConsistent()){
-            return mContext.getString(R.string.msg_cedula_not_valid); //todo: Exception
+            return mContext.getString(R.string.msg_cedula_not_valid);
         }
 
         String idPersona;
@@ -101,7 +101,7 @@ public class Multas {
         }else{
             //find id cedula
             if (!utils.isNetworkAvailable()){
-                return mContext.getString(R.string.no_internet_connection);//todo? exception?
+                return mContext.getString(R.string.no_internet_connection);
             }
 
             String url = String.format(link_to_multas_page_list, cedulaNb);
@@ -196,7 +196,7 @@ public class Multas {
 
         if (Integer.parseInt(idPersona) < 1000){
             throw new WrongIdPersonaException(
-                    mContext.getString(R.string.msg_cedula_not_valid)); //todo: throw an exception
+                    mContext.getString(R.string.msg_cedula_not_valid));
         }
         utils.saveShared(key_id_persona ,idPersona);
         utils.saveShared(key_id_persona_validated, true);
