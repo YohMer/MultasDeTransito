@@ -24,13 +24,14 @@
 
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:weightSum="1"
-            android:layout_gravity="top|left|bottom|right">
+            android:gravity="center"
+            >
 
             <EditText
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:inputType="number"
                 android:id="@+id/cedulaNb"
@@ -38,11 +39,11 @@
                 android:maxLength="10"
                 android:hint="@string/default_cedula_nb"
                 android:textIsSelectable="true"
-                android:textSize="50sp"
+                android:textSize="30sp"
                 android:onClick="showSoftKeyboard"
                 android:imeOptions="actionSend"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_horizontal"/>
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"/>
 
         </LinearLayout>
 
@@ -54,19 +55,19 @@
             android:textColor="@color/red"
             android:minLines="2" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/total_multas"
+            android:id="@+id/textView2"
+            />
+
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="30dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/total_multas"
-                android:id="@+id/textView2"
-                />
+            android:layout_gravity="center_horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -76,7 +77,9 @@
                 android:id="@+id/total_multas_value"
                 android:paddingLeft="10dp"
                 android:textIsSelectable="true"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:textSize="30sp"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -84,7 +87,8 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/devise"
                 android:id="@+id/textView3"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:textSize="30sp"/>
         </LinearLayout>
 
         <LinearLayout
