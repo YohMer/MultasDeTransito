@@ -72,7 +72,7 @@ public class Multas {
         initDone = true;
 
         if (Defaults.DEBUG_FIRST_START){
-            mContext.getSharedPreferences("YOUR_PREFS", 0).edit().clear().commit();
+            PreferenceManager.getDefaultSharedPreferences(mContext).edit().clear().apply();
             utils.saveShared(key_EULA_accepted, false);
         }
     }
