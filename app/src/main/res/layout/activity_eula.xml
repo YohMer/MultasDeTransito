@@ -59,19 +59,21 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp">
 
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="@string/licence_question_validation"
-                    android:id="@+id/Quetion_licence"/>
+                    android:id="@+id/Quetion_licence"
+                    android:paddingBottom="5dp"/>
 
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    >
+                    android:padding="2dp">
 
                     <Button
                         android:layout_width="wrap_content"
