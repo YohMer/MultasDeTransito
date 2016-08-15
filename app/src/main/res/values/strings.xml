@@ -48,6 +48,7 @@
     <string name="key_last_total">lastTotal</string>
     <string name="key_alarm_interval">alarmInterval</string>
     <string name="key_default_alarm_interval">defaultAlarmInterval</string>
+    <string name="key_EULA_accepted">isEulaAccepted</string>
 
     //messages:
     <string name="no_internet_connection">No hay conneccion a internet</string>

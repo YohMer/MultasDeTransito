@@ -77,14 +77,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/licence_ok"
-                        android:id="@+id/licence_OK"/>
+                        android:id="@+id/licence_OK"
+                        android:onClick="okBtn"/>
 
                     <Button
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/licence_refuse"
                         android:id="@+id/licence_refuse"
-                        android:layout_gravity="right|top"/>
+                        android:layout_gravity="right|top"
+                        android:onClick="refuseBtn"/>
                 </FrameLayout>
             </LinearLayout>
 

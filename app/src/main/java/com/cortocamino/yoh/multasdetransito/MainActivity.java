@@ -33,17 +33,25 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
     private PendingIntent pendingIntent;
     Utils utils;
+    SharedPreferences sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         utils = new Utils(this);
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        String key_EULA_accepted = getString(R.string.key_EULA_accepted);
 
         if (Defaults.MY_DEBUG)
             findViewById(R.id.debug_id_persona).setVisibility(View.VISIBLE);
 
         Multas.init(this);
+
+        if (!(sharedPref.getBoolean(key_EULA_accepted, false))){
+            showEULA();
+        }
+
         new updateAll().execute("");
 
         //init alarm:
@@ -173,8 +181,6 @@ public class MainActivity extends AppCompatActivity {
     public void startAlarm() {
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         String key_alarm_interval = getString(R.string.key_alarm_interval);
-        SharedPreferences sharedPref =
-                PreferenceManager.getDefaultSharedPreferences(this);
         long interval =
                 sharedPref.getLong(key_alarm_interval, Defaults.DEFAULT_ALARM_INTERVAL);
 
@@ -199,5 +205,10 @@ public class MainActivity extends AppCompatActivity {
         pmBR.setComponentEnabledSetting(bootReceiver,
                 PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                 PackageManager.DONT_KILL_APP);
+    }
+
+    public void showEULA(){
+        Intent intent = new Intent(this, EulaActivity.class);
+        startActivity(intent);
     }
 }

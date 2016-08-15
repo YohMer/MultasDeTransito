@@ -11,13 +11,37 @@
 package com.cortocamino.yoh.multasdetransito;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.view.View;
 
 public class EulaActivity extends Activity {
+    Utils utils;
+    SharedPreferences sharedPref;
+    String key_EULA_accepted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        utils = new Utils(this);
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        key_EULA_accepted = getString(R.string.key_EULA_accepted);
+
         setContentView(R.layout.activity_eula);
+    }
+
+    void okBtn(View view){
+        utils.saveShared(key_EULA_accepted, true);
+        finish();
+    }
+
+    void refuseBtn(View view){
+        utils.saveShared(key_EULA_accepted, false);
+        Intent homeIntent = new Intent(Intent.ACTION_MAIN);
+        homeIntent.addCategory( Intent.CATEGORY_HOME );
+        homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(homeIntent);
     }
 }

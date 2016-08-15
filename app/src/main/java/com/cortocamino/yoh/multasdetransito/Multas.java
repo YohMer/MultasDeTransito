@@ -67,11 +67,14 @@ public class Multas {
         key_last_total = mContext.getString(R.string.key_last_total);
         key_update_time = mContext.getString(R.string.key_last_update_time);
         link_to_multas_page_list = mContext.getString(R.string.link_to_multas_page_list);
+        String key_EULA_accepted = mContext.getString(R.string.key_EULA_accepted);
 
         initDone = true;
 
-        if (Defaults.DEBUG_FIRST_START)
+        if (Defaults.DEBUG_FIRST_START){
             mContext.getSharedPreferences("YOUR_PREFS", 0).edit().clear().commit();
+            utils.saveShared(key_EULA_accepted, false);
+        }
     }
 
     public static Boolean changeCedulaNb(Context mcontext, String cedulaNb){
