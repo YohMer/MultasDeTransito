@@ -80,7 +80,7 @@ public class Multas {
     public static Boolean changeCedulaNb(Context mcontext, String cedulaNb){
         Utils utils = new Utils(mcontext);
         
-        if((cedulaNb.length() == 10) && (Integer.parseInt(cedulaNb) > 0)) {
+        if((cedulaNb.length() == 10) && (Double.parseDouble(cedulaNb) > 0)) {
             utils.saveShared(key_cedula_nb_consistent, true);
 
             String cedulaNbSaved = sharedPref.getString(key_cedula,  defaultIdPersona);
@@ -207,7 +207,7 @@ public class Multas {
         String idPersona = utils.extractFirstNbAsString(idPersonaStr);
         Log.d(Defaults.DEBUG_TAG, "id persona: " + idPersona);
 
-        if (Integer.parseInt(idPersona) < 1000){
+        if (Double.parseDouble(idPersona) < 1000){
             throw new WrongIdPersonaException(
                     mContext.getString(R.string.msg_cedula_not_valid));
         }
