@@ -35,7 +35,7 @@ public class Multas {
     //private static boolean cedulaNbValid;
     private static String defaultIdPersona;
     //private static boolean idPersonaValid;
-    private static String defaultMultas;
+    private static String default_total_multas;
     private static String default_update_time;
 
     private static String key_cedula;
@@ -56,7 +56,7 @@ public class Multas {
         sharedPref = PreferenceManager.getDefaultSharedPreferences(mContext);
         defaultCedulaNb = mContext.getString(R.string.default_cedula_nb);
         defaultIdPersona = mContext.getString(R.string.default_id_persona);
-        defaultMultas = mContext.getString(R.string.default_multas);
+        default_total_multas = mContext.getString(R.string.default_total_multas);
         default_update_time = mContext.getString(R.string.default_update_time);
 
         key_cedula = mContext.getString(R.string.key_cedula);
@@ -177,7 +177,7 @@ public class Multas {
         return sharedPref.getString(key_id_persona,  defaultIdPersona);
     }
     public static String getTotalMultas() {
-        return sharedPref.getString(key_total_multas,  defaultMultas);
+        return sharedPref.getString(key_total_multas, default_total_multas);
     }
     public static String getLastUpdateTime() {
         return sharedPref.getString(key_update_time, default_update_time);
@@ -185,7 +185,7 @@ public class Multas {
 
     private static void resetAllSharedButCedulaNb(){
         utils.saveShared(key_id_persona, defaultIdPersona);
-        utils.saveShared(key_total_multas, defaultMultas);
+        utils.saveShared(key_total_multas, default_total_multas);
         utils.saveShared(key_update_time, default_update_time);
         utils.saveShared(key_id_persona_validated, false);
         utils.saveShared(key_last_total, 0.0f);
