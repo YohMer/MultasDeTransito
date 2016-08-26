@@ -15,7 +15,7 @@ import android.app.AlarmManager;
 /**
  * Created by yoh on 7/15/16.
  */
-class Defaults {
+class Config {
     static final long DEFAULT_ALARM_INTERVAL = AlarmManager.INTERVAL_DAY;
     static final boolean MY_DEBUG = false;
     static final String DEBUG_TAG = "DEBUG";

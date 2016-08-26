@@ -31,18 +31,18 @@ public class AlarmReceiver extends BroadcastReceiver {
         //if activity run do nothing
         if(sharedPref.getBoolean(key_activity_on, false)){
             Utils.debugToast(context, "activity on, no service will run");
-            Log.d(Defaults.DEBUG_TAG, "activity on, no service will run");
+            Log.d(Config.DEBUG_TAG, "activity on, no service will run");
             return;
         }
 
         //verify the internet connection
         Utils utils = new Utils(context);
         if (!utils.isNetworkAvailable()) {
-            Log.d(Defaults.DEBUG_TAG, "no network");
+            Log.d(Config.DEBUG_TAG, "no network");
             Utils.debugToast(context, "no network");
             return;
         }
-        Log.d(Defaults.DEBUG_TAG, "url and network present");
+        Log.d(Config.DEBUG_TAG, "url and network present");
 
         //create the service
         Intent getXjsonMultasService = new Intent(context, GetXjsonMultasService.class);

@@ -104,7 +104,7 @@ public class Utils {
     }
 
     static void debugToast(Context mContext, String msg){
-        if (Defaults.MY_DEBUG){
+        if (Config.MY_DEBUG){
             Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
         }
     }

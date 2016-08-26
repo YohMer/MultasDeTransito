@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         String key_EULA_accepted = getString(R.string.key_EULA_accepted);
 
-        if (Defaults.MY_DEBUG)
+        if (Config.MY_DEBUG)
             findViewById(R.id.debug_id_persona).setVisibility(View.VISIBLE);
 
         Multas.init(this);
@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //show id persona:
-        if (Defaults.MY_DEBUG){
+        if (Config.MY_DEBUG){
             String idPersona = Multas.getIdPersona();
             ((TextView)findViewById(R.id.debug_id_persona)).setText(idPersona);
         }
@@ -187,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         String key_alarm_interval = getString(R.string.key_alarm_interval);
         long interval =
-                sharedPref.getLong(key_alarm_interval, Defaults.DEFAULT_ALARM_INTERVAL);
+                sharedPref.getLong(key_alarm_interval, Config.DEFAULT_ALARM_INTERVAL);
 
         manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
                 interval, pendingIntent);

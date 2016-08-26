@@ -71,7 +71,7 @@ public class Multas {
 
         initDone = true;
 
-        if (Defaults.DEBUG_FIRST_START){
+        if (Config.DEBUG_FIRST_START){
             PreferenceManager.getDefaultSharedPreferences(mContext).edit().clear().apply();
             utils.saveShared(key_EULA_accepted, false);
         }
@@ -205,7 +205,7 @@ public class Multas {
         int endPosition = startPosition + 15;
         String idPersonaStr = html.substring(startPosition, endPosition);
         String idPersona = utils.extractFirstNbAsString(idPersonaStr);
-        Log.d(Defaults.DEBUG_TAG, "id persona: " + idPersona);
+        Log.d(Config.DEBUG_TAG, "id persona: " + idPersona);
 
         if (Double.parseDouble(idPersona) < 1000){
             throw new WrongIdPersonaException(

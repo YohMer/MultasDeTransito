@@ -36,7 +36,7 @@ public class GetXjsonMultasService extends IntentService {
 
         Multas.update(this);
         String totalMultasTxt = sharedPref.getString(key_total_multas, "0");
-        Log.d(Defaults.DEBUG_TAG, "multas: " + totalMultasTxt);
+        Log.d(Config.DEBUG_TAG, "multas: " + totalMultasTxt);
 
         Float totalMultas = Float.parseFloat(totalMultasTxt);
 
