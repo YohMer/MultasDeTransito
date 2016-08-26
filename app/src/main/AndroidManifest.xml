@@ -52,6 +52,10 @@
 
         <activity android:name=".EulaActivity">
         </activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="43e137012c9a30472ae7da8e17586daa4ccaba21"
+            />
     </application>
 
 </manifest>
