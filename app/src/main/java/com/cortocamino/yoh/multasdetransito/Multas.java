@@ -28,6 +28,8 @@ import java.util.Locale;
  */
 public class Multas {
 
+    final static String TAG = "Multas";
+
     private static Utils utils;
     private static SharedPreferences sharedPref;
 
@@ -153,7 +155,7 @@ public class Multas {
             saveMultas(mContext, json);
         }
         catch (JSONException e){
-            Log.d("JSONException", e.getMessage());
+            Utils.logException(TAG, e);
             return mContext.getString(R.string.msg_json_not_valid);
         }
 
@@ -205,7 +207,7 @@ public class Multas {
         int endPosition = startPosition + 15;
         String idPersonaStr = html.substring(startPosition, endPosition);
         String idPersona = utils.extractFirstNbAsString(idPersonaStr);
-        Log.d(Config.DEBUG_TAG, "id persona: " + idPersona);
+        Utils.log(Log.INFO, TAG, "id persona: " + idPersona);
 
         if (Double.parseDouble(idPersona) < 1000){
             throw new WrongIdPersonaException(

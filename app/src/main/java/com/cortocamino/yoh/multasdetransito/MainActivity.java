@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -35,6 +36,7 @@ import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends AppCompatActivity {
+    static private String TAG = "MainActivity";
     private PendingIntent pendingIntent;
     Utils utils;
     SharedPreferences sharedPref;
@@ -120,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
         if (faultMsg.equals(getString(R.string.done))){
             findViewById(R.id.info1).setVisibility(View.INVISIBLE);
         } else {
+            Crashlytics.log(Log.INFO, TAG, "msg on screen: " + faultMsg);
             findViewById(R.id.info1).setVisibility(View.VISIBLE);
         }
 

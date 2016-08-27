@@ -21,6 +21,8 @@ import android.util.Log;
  */
 public class GetXjsonMultasService extends IntentService {
 
+    static private String TAG = "GetXjsonMultasService";
+
     public GetXjsonMultasService() {
         super("GetXjsonMultasService");
     }
@@ -36,7 +38,7 @@ public class GetXjsonMultasService extends IntentService {
 
         Multas.update(this);
         String totalMultasTxt = sharedPref.getString(key_total_multas, "0");
-        Log.d(Config.DEBUG_TAG, "multas: " + totalMultasTxt);
+        Utils.log(Log.INFO, TAG, "multas: " + totalMultasTxt);
 
         Float totalMultas = Float.parseFloat(totalMultasTxt);
 

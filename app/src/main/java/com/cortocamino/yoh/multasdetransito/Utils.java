@@ -15,7 +15,10 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.Toast;
+
+import com.crashlytics.android.Crashlytics;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -112,5 +115,31 @@ public class Utils {
     static String convertStreamToString(java.io.InputStream is) {
         java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
         return s.hasNext() ? s.next() : "";
+    }
+
+    static void log(int priority, String tag, String msg){
+        if(!Config.MY_DEBUG) {
+            Crashlytics.log(priority, tag, msg);
+        } else if (priority == Log.ASSERT) {
+            Log.w(tag, msg);
+        } else if (priority == Log.INFO) {
+            Log.i(tag, msg);
+        } else if (priority == Log.ERROR) {
+            Log.e(tag, msg);
+        } else if (priority == Log.DEBUG) {
+            Log.d(tag, msg);
+        } else if (priority == Log.VERBOSE) {
+            Log.v(tag, msg);
+        } else {
+            Log.v(tag, msg + "-- INVALID PRIORITY");
+        }
+    }
+
+    static void logException(String tag, Exception e){
+        if(!Config.MY_DEBUG) {
+            Crashlytics.logException(e);
+        } else {
+            Log.wtf(tag, e);
+        }
     }
 }
