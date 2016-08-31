@@ -63,6 +63,13 @@
     <string name="update">actualizar</string>
     <string name="valid">OK</string>  //\u23CE
     <string name="link_to_gov_txt">sitio web oficial</string>
+
+    //password:
+    <string name="ask_for_new_password">Elegir una contraseña:</string>
+    <string name="ask_for_password">Entra su contraseña:</string>
+    <string name="ask_for_password_2">Verificacion de su contraseña:</string>
+    <string name="passwords_no_match">Las contraseña estan diferentes</string>
+    <string name="no_valid_password">Contraseña incorrecta</string>
     
     //licence:
     <string name="EULA_title">Acuerdo de Licencia con el Usuario Final</string>

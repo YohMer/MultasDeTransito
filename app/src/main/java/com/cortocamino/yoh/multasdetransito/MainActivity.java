@@ -48,16 +48,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         utils = new Utils(this);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        String key_EULA_accepted = getString(R.string.key_EULA_accepted);
 
         if (Config.MY_DEBUG)
             findViewById(R.id.debug_id_persona).setVisibility(View.VISIBLE);
 
         Multas.init(this);
-
-        if (!(sharedPref.getBoolean(key_EULA_accepted, false))){
-            showEULA();
-        }
 
         new updateAll().execute("");
 
@@ -215,8 +210,4 @@ public class MainActivity extends AppCompatActivity {
                 PackageManager.DONT_KILL_APP);
     }
 
-    public void showEULA(){
-        Intent intent = new Intent(this, EulaActivity.class);
-        startActivity(intent);
-    }
 }
