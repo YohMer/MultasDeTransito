@@ -20,6 +20,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tozny.crypto.android.AesCbcWithIntegrity;
+
 public class StartActivity extends Activity {
     SharedPreferences sharedPref;
     String key_EULA_accepted;
@@ -64,12 +66,28 @@ public class StartActivity extends Activity {
 
         if (p1.equals(p2)){
             Intent intent = new Intent(this, MainActivity.class);
+            savePassword(p1);
             startActivity(intent);
-
             finish();
         } else {
             String msg = getString(R.string.passwords_no_match);
             Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void savePassword(String p){
+        AesCbcWithIntegrity.SecretKeys key;
+        byte[] salt;
+        String saltStr;
+
+        try{
+            salt = AesCbcWithIntegrity.generateSalt();
+            key = AesCbcWithIntegrity.generateKeyFromPassword(p, salt);
+            saltStr = AesCbcWithIntegrity.saltString(salt);
+        } catch (Exception e){
+            //todo
+        }
+
+
     }
 }
