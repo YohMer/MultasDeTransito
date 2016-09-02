@@ -32,12 +32,12 @@ public class EulaActivity extends Activity {
         setContentView(R.layout.activity_eula);
     }
 
-    void okBtn(View view){
+    public void okBtn(View view){
         utils.saveShared(key_EULA_accepted, true);
         finish();
     }
 
-    void refuseBtn(View view){
+    public void refuseBtn(View view){
         utils.saveShared(key_EULA_accepted, false);
         Intent homeIntent = new Intent(Intent.ACTION_MAIN);
         homeIntent.addCategory( Intent.CATEGORY_HOME );
