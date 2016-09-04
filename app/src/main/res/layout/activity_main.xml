@@ -55,7 +55,38 @@
                 android:onClick="showSoftKeyboard"
                 android:imeOptions="actionSend"
                 android:layout_gravity="center_horizontal"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:visibility="visible"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:inputType="textCapCharacters"
+                android:id="@+id/placaNb1"
+                android:maxLength="8"
+                android:hint="@string/default_placa_nb1"
+                android:textIsSelectable="true"
+                android:textSize="30sp"
+                android:onClick="showSoftKeyboard"
+                android:imeOptions="actionSend"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:visibility="gone"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/placaNb2"
+                android:maxLength="8"
+                android:hint="@string/default_placa_nb2"
+                android:textIsSelectable="true"
+                android:textSize="30sp"
+                android:onClick="showSoftKeyboard"
+                android:imeOptions="actionSend"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:visibility="gone"
+                android:inputType="number"/>
 
         </LinearLayout>
 

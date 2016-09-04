@@ -28,6 +28,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -37,7 +38,7 @@ import com.crashlytics.android.Crashlytics;
 
 import io.fabric.sdk.android.Fabric;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     static private String TAG = "MainActivity";
     private PendingIntent pendingIntent;
     Utils utils;
@@ -85,12 +86,36 @@ public class MainActivity extends AppCompatActivity {
         utils.saveShared(getString(R.string.key_activity_on), true);
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view,
+                               int pos, long id) {
+        if (id == 0){
+            findViewById(R.id.placaNb1).setVisibility(View.GONE);
+            findViewById(R.id.placaNb2).setVisibility(View.GONE);
+            findViewById(R.id.cedulaNb).setVisibility(View.VISIBLE);
+
+        } else if (id == 1){
+            findViewById(R.id.cedulaNb).setVisibility(View.GONE);
+            findViewById(R.id.placaNb1).setVisibility(View.VISIBLE);
+            findViewById(R.id.placaNb2).setVisibility(View.VISIBLE);
+
+        }
+        // An item was selected. You can retrieve the selected item using
+        // parent.getItemAtPosition(pos)
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        // Another interface callback
+    }
+
     public void createSpinner(int id){
         Spinner spinner = (Spinner) findViewById(id);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.look_for_array, R.layout.spinner_item);
         adapter.setDropDownViewResource(R.layout.spinner_dropdown);
         spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
     }
     public void showSoftKeyboard(View view){
         if(view.requestFocus()){

@@ -26,6 +26,10 @@
     <string name="default_id_persona">0000000</string>
     <string name="previous_id_persona">id_persona=</string>
 
+    //placa vlaues:
+    <string name="default_placa_nb1">ABC</string>
+    <string name="default_placa_nb2">1234</string>
+
     //multas values:
     <string name="devise">$</string>
     <string name="default_total_multas">\??.?? </string>
