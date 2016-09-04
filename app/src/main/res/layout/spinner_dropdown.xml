@@ -8,23 +8,13 @@
   ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE
   -->
 
-<resources>
-
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:spinnerItemStyle">@style/spinnerItemStyle</item>
-        <item name="android:dropDownListViewStyle">@style/mySpinnerStyle</item>
-    </style>
-    <style name="spinnerItemStyle">
-        <item name="android:divider">#FFFFFF</item>
-        <item name="android:dividerHeight">15dp</item>
-    </style>
-    <style name="mySpinnerStyle" parent="android:Widget.ListView.DropDown">
-        <item name="android:divider">#FFFFFF</item>
-        <item name="android:dividerHeight">15dp</item>
-    </style>
-</resources>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:paddingTop="5sp"
+            android:paddingBottom="5sp"
+            android:singleLine="true"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:padding="10dp"/>

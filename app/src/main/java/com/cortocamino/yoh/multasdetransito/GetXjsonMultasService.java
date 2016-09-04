@@ -36,7 +36,9 @@ public class GetXjsonMultasService extends IntentService {
         String key_last_total = getString(R.string.key_last_total);
         Float lastTotal = sharedPref.getFloat(key_last_total, 0f);
 
-        Multas.update(this);
+        //connection to the server to retrieve multas value
+        MultasPorCedula.getMultasFromCedula(this);
+
         String totalMultasTxt = sharedPref.getString(key_total_multas, "0");
         Utils.log(Log.INFO, TAG, "multas: " + totalMultasTxt);
 

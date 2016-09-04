@@ -12,8 +12,13 @@
     <string name="app_ref">com.cortocamino.multasdetransito</string>
     <string name="app_name">Multas De Transito</string>
 
+
+    <string-array name="look_for_array">
+        <item>Cedula</item>
+        <item>Placa</item>
+    </string-array>
+
     //cedula values:
-    <string name="ask_cedula_nb">Su numero de cedula:</string>
     <string name="default_cedula_nb">0000000000</string>
     <string name="cedula_saved">cedula_saved</string>
 

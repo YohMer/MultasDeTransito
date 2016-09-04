@@ -28,7 +28,9 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
@@ -50,10 +52,12 @@ public class MainActivity extends AppCompatActivity {
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         String key_EULA_accepted = getString(R.string.key_EULA_accepted);
 
+        createSpinner(R.id.spinner_look_for);
+
         if (Config.MY_DEBUG)
             findViewById(R.id.debug_id_persona).setVisibility(View.VISIBLE);
 
-        Multas.init(this);
+        MultasPorCedula.init(this);
 
         if (!(sharedPref.getBoolean(key_EULA_accepted, false))){
             showEULA();
@@ -81,6 +85,13 @@ public class MainActivity extends AppCompatActivity {
         utils.saveShared(getString(R.string.key_activity_on), true);
     }
 
+    public void createSpinner(int id){
+        Spinner spinner = (Spinner) findViewById(id);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.look_for_array, R.layout.spinner_item);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown);
+        spinner.setAdapter(adapter);
+    }
     public void showSoftKeyboard(View view){
         if(view.requestFocus()){
             InputMethodManager imm =(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -100,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
                 boolean handled = false;
                 if (actionId == EditorInfo.IME_ACTION_SEND) {
                     boolean result =
-                            Multas.changeCedulaNb(context, editText.getText().toString());
+                            MultasPorCedula.changeCedulaNb(context, editText.getText().toString());
 
                     if (result){
                         hideSoftKeyboard(view);
@@ -137,11 +148,11 @@ public class MainActivity extends AppCompatActivity {
 
         //show actualizar only if cedula can be valid:
         findViewById(R.id.btn_refresh).setVisibility(
-                Multas.isCedulaNbConsistent()?View.VISIBLE:View.INVISIBLE);
+                MultasPorCedula.isCedulaNbConsistent()?View.VISIBLE:View.INVISIBLE);
     }
     private void updateViewValues(){
         //show cedula Nb:
-        String cedulaNb = Multas.getCedulaNb();
+        String cedulaNb = MultasPorCedula.getCedulaNb();
         if(cedulaNb.equals(getString(R.string.default_cedula_nb))){
             ((EditText) findViewById(R.id.cedulaNb)).setText("");
         } else {
@@ -150,16 +161,16 @@ public class MainActivity extends AppCompatActivity {
 
         //show id persona:
         if (Config.MY_DEBUG){
-            String idPersona = Multas.getIdPersona();
+            String idPersona = MultasPorCedula.getIdPersona();
             ((TextView)findViewById(R.id.debug_id_persona)).setText(idPersona);
         }
 
         //show total multas:
-        String totalStr = Multas.getTotalMultas();
+        String totalStr = MultasPorCedula.getTotalMultas();
         ((TextView)findViewById(R.id.total_multas_value)).setText(totalStr);
 
         //show last update time:
-        String time = Multas.getLastUpdateTime();
+        String time = MultasPorCedula.getLastUpdateTime();
         ((TextView)findViewById(R.id.date_update)).setText(time);
     }
 
@@ -177,7 +188,8 @@ public class MainActivity extends AppCompatActivity {
     private class updateAll extends AsyncTask<String, Void, String>{
         @Override
         protected String doInBackground(String empty[]) {
-            return Multas.update(MainActivity.this);
+            //connection to the server to retrieve multas value
+            return MultasPorCedula.getMultasFromCedula(MainActivity.this);
         }
 
         @Override

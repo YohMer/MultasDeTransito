@@ -24,13 +24,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <Spinner
+            android:id="@+id/spinner_look_for"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/ask_cedula_nb"
-            android:paddingTop="20dp"
-            />
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:spinnerMode="dialog"
+            android:layout_margin="0dp"
+            android:layout_marginTop="10dp"/>
 
         <LinearLayout
             android:orientation="horizontal"
@@ -131,7 +133,7 @@
 
             <Button
                 android:layout_width="match_parent"
-                android:layout_height="94dp"
+                android:layout_height="90sp"
                 android:text="@string/update"
                 android:id="@+id/btn_refresh"
                 android:layout_gravity="center"

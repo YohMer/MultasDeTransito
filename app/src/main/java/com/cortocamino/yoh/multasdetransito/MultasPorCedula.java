@@ -26,9 +26,9 @@ import java.util.Locale;
 /**
  * Created by yoh on 7/13/16.
  */
-public class Multas {
+public class MultasPorCedula {
 
-    final static String TAG = "Multas";
+    final static String TAG = "MultasPorCedula";
 
     private static Utils utils;
     private static SharedPreferences sharedPref;
@@ -98,7 +98,7 @@ public class Multas {
             return false;
         }
     }
-    public static String update(Context mContext){
+    public static String getMultasFromCedula(Context mContext){
         if (!isInitDone()){
             return null;
         }
