@@ -49,8 +49,8 @@
 
     //links values:
     <string name="link_to_gov">http://sistemaunico.ant.gob.ec:6033/PortalWEB/paginas/clientes/clp_criterio_consulta.jsp</string>
-    <string name="link_to_multas_page_list">http://sistemaunico.ant.gob.ec:6033/PortalWEB/paginas/clientes/clp_grid_citaciones.jsp?ps_tipo_identificacion=CED&amp;ps_identificacion=%1$s&amp;ps_placa=</string>
-    <string name="link_to_xjson_multas_list">http://sistemaunico.ant.gob.ec:6033/PortalWEB/paginas/clientes/clp_json_citaciones.jsp?ps_opcion=P&amp;ps_id_contrato=&amp;ps_id_persona=%1$s&amp;ps_placa=&amp;ps_identificacion=%2$s&amp;ps_tipo_identificacion=CED&amp;_search=false&amp;nd=%3$s&amp;rows=50&amp;page=1&amp;sidx=fecha_emision&amp;sord=desc</string>
+    <string name="link_to_multas_page_list">http://sistemaunico.ant.gob.ec:6033/PortalWEB/paginas/clientes/clp_grid_citaciones.jsp?ps_tipo_identificacion=%1$s&amp;ps_identificacion=%2$s&amp;ps_placa=%3$s</string>
+    <string name="link_to_xjson_multas_list">http://sistemaunico.ant.gob.ec:6033/PortalWEB/paginas/clientes/clp_json_citaciones.jsp?ps_opcion=%1$s&amp;ps_id_contrato=%2$s&amp;ps_id_persona=%3$s&amp;ps_placa=%4$s&amp;ps_identificacion=%5$s&amp;ps_tipo_identificacion=%6$s&amp;_search=false&amp;nd=%7$s&amp;rows=50&amp;page=1&amp;sidx=fecha_emision&amp;sord=desc</string>
 
     //states keys:
     <string name="key_last_update_time">keyLastUpdateTime</string>
