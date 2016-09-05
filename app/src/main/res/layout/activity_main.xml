@@ -68,7 +68,7 @@
                 android:textIsSelectable="true"
                 android:textSize="30sp"
                 android:onClick="showSoftKeyboard"
-                android:imeOptions="actionSend"
+                android:imeOptions="actionNext"
                 android:layout_gravity="center_horizontal"
                 android:gravity="center"
                 android:visibility="gone"/>
