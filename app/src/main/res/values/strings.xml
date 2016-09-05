@@ -12,7 +12,6 @@
     <string name="app_ref">com.cortocamino.multasdetransito</string>
     <string name="app_name">Multas De Transito</string>
 
-
     <string-array name="look_for_array">
         <item>Cedula</item>
         <item>Placa</item>
@@ -21,19 +20,29 @@
     //cedula values:
     <string name="default_cedula_nb">0000000000</string>
     <string name="cedula_saved">cedula_saved</string>
+    <string name="key_cedula">keyCedula</string>
+    <string name="key_cedula_not_valid">keyCedulaNotValid</string>
 
     //id persona values:
     <string name="default_id_persona">0000000</string>
     <string name="previous_id_persona">id_persona=</string>
+    <string name="key_id_persona_validated">keyIdPersonaValidated</string>
+    <string name="key_id_persona">keyIdPersona</string>
 
-    //placa vlaues:
+    //placa values:
     <string name="default_placa_nb1">ABC</string>
     <string name="default_placa_nb2">1234</string>
+    <string name="placa_nb1_saved">ABC</string>
+    <string name="placa_nb2_saved">1234</string>
+    <string name="key_placa_validated"></string>
 
     //multas values:
     <string name="devise">$</string>
     <string name="default_total_multas">\??.?? </string>
     <string name="total_multas">total multas: </string>
+    <string name="key_total_multas">keyTotalMulta</string>
+    <string name="key_last_total">lastTotal</string>
+    <string name="key_full_link_to_xjson_multas_list">keyLinkMultas</string>
 
     //update time:
     <string name="default_update_time"> 00/00/0000</string>
@@ -43,20 +52,14 @@
     <string name="link_to_multas_page_list">http://sistemaunico.ant.gob.ec:6033/PortalWEB/paginas/clientes/clp_grid_citaciones.jsp?ps_tipo_identificacion=CED&amp;ps_identificacion=%1$s&amp;ps_placa=</string>
     <string name="link_to_xjson_multas_list">http://sistemaunico.ant.gob.ec:6033/PortalWEB/paginas/clientes/clp_json_citaciones.jsp?ps_opcion=P&amp;ps_id_contrato=&amp;ps_id_persona=%1$s&amp;ps_placa=&amp;ps_identificacion=%2$s&amp;ps_tipo_identificacion=CED&amp;_search=false&amp;nd=%3$s&amp;rows=50&amp;page=1&amp;sidx=fecha_emision&amp;sord=desc</string>
 
-    //shared keys:
-    <string name="key_cedula">keyCedula</string>
-    <string name="key_cedula_not_valid">keyCedulaNotValid</string>
-    <string name="key_id_persona">keyIdPersona</string>
-    <string name="key_id_persona_validated">keyIdPersonaValidated</string>
-    <string name="key_total_multas">keyTotalMulta</string>
+    //states keys:
     <string name="key_last_update_time">keyLastUpdateTime</string>
-    <string name="key_full_link_to_xjson_multas_list">keyLinkMultas</string>
     <string name="key_activity_on">activityState</string>
     <string name="key_no_network">noNetwork</string>
-    <string name="key_last_total">lastTotal</string>
+
+    //alarms:
     <string name="key_alarm_interval">alarmInterval</string>
     <string name="key_default_alarm_interval">defaultAlarmInterval</string>
-    <string name="key_EULA_accepted">isEulaAccepted</string>
 
     //messages:
     <string name="no_internet_connection">No hay conneccion a internet</string>
@@ -87,4 +90,5 @@
     <string name="licence_question_validation">Al usar este programa, usted aprueba las condiciones de uso describidas en la licencia más arriba.</string>
     <string name="licence_ok">Aprobo</string>
     <string name="licence_refuse">Salir</string>
+    <string name="key_EULA_accepted">isEulaAccepted</string>
 </resources>

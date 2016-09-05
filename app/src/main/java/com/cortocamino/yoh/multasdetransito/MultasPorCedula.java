@@ -119,7 +119,7 @@ public class MultasPorCedula {
                 return mContext.getString(R.string.no_internet_connection);
             }
 
-            String url = String.format(link_to_multas_page_list, cedulaNb);
+            String url = String.format(link_to_multas_page_list, "CED", cedulaNb, "");
             String html;
             try{
                 html = utils.downloadUrl(url);
@@ -137,7 +137,7 @@ public class MultasPorCedula {
         //full json link:
         String multasUrl = String.format(
                 mContext.getString(R.string.link_to_xjson_multas_list),
-                idPersona, cedulaNb, System.currentTimeMillis());
+                "P", "", idPersona, "", cedulaNb, "CED", System.currentTimeMillis());
 
         if (!utils.isNetworkAvailable()){
             return mContext.getString(R.string.no_internet_connection);
