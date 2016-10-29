@@ -15,34 +15,29 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
-class MultasPorCedula {
+class MultasPorPlaca {
 
-    private final static String TAG = "MultasPorCedula";
+    private final static String TAG = "MultasPorPlaca";
 
     private static Utils utils;
     private static SharedPreferences sharedPref;
 
-    private static String defaultCedulaNb;
-    //private static boolean cedulaNbValid;
-    private static String defaultIdPersona;
-    //private static boolean idPersonaValid;
+    private static String defaultPlacaNb1;
+    private static String defaultPlacaNb2;
     private static String default_total_multas;
     private static String default_update_time;
 
-    private static String key_cedula;
-    private static String key_cedula_nb_consistent;
-    private static String key_id_persona;
-    private static String key_id_persona_validated;
+    private static String key_placa_nb1;
+    private static String key_placa_nb2;
+    private static String key_placa_nb_consistent;
     private static String key_total_multas;
     private static String key_last_total;
     private static String key_update_time;
@@ -55,15 +50,14 @@ class MultasPorCedula {
 
         //init:
         sharedPref = PreferenceManager.getDefaultSharedPreferences(mContext);
-        defaultCedulaNb = mContext.getString(R.string.default_cedula_nb);
-        defaultIdPersona = mContext.getString(R.string.default_id_persona);
+        defaultPlacaNb1 = mContext.getString(R.string.default_placa_nb1);
+        defaultPlacaNb2 = mContext.getString(R.string.default_placa_nb2);
         default_total_multas = mContext.getString(R.string.default_total_multas);
         default_update_time = mContext.getString(R.string.default_update_time);
 
-        key_cedula = mContext.getString(R.string.key_cedula_saved);
-        key_cedula_nb_consistent = mContext.getString(R.string.key_cedula_valid);
-        key_id_persona = mContext.getString(R.string.key_id_persona);
-        key_id_persona_validated = mContext.getString(R.string.key_id_persona_validated);
+        key_placa_nb1 = mContext.getString(R.string.key_placa_nb1_saved);
+        key_placa_nb2 = mContext.getString(R.string.key_placa_nb2_saved);
+        key_placa_nb_consistent = mContext.getString(R.string.key_placa_valid);
         key_total_multas = mContext.getString(R.string.key_total_multas);
         key_last_total = mContext.getString(R.string.key_last_total);
         key_update_time = mContext.getString(R.string.key_last_update_time);
@@ -79,17 +73,20 @@ class MultasPorCedula {
     }
 
     @NonNull
-    public static Boolean changeCedulaNb(Context mContext, String cedulaNb) {
+    public static Boolean changePlacaNb(Context mContext, String placaNb1,
+                                        String placaNb2) {
         Utils utils = new Utils(mContext);
 
-        if ((cedulaNb.length() == 10) && (Double.parseDouble(cedulaNb) > 0)) {
-            utils.saveShared(key_cedula_nb_consistent, true);
+        if ((placaNb1.matches("[a-zA-Z]+")) && (placaNb2.matches("[0-9]+"))) {
+            utils.saveShared(key_placa_nb_consistent, true);
 
-            String cedulaNbSaved = sharedPref.getString(key_cedula, defaultCedulaNb);
-            //is cedula value new
-            if (!cedulaNb.equals(cedulaNbSaved)) {
-                utils.saveShared(key_cedula, cedulaNb);
-                resetAllSharedButCedulaNb();
+            String placaNbSaved = getPlacaNb();
+            String newPlacaNb = placaNb1 + placaNb2;
+            //is placa value new
+            if (!newPlacaNb.equals(placaNbSaved)) {
+                utils.saveShared(key_placa_nb1, placaNb1);
+                utils.saveShared(key_placa_nb2, placaNb2);
+                resetAllSharedButPlacaNb();
             }
             return true;
 
@@ -100,46 +97,21 @@ class MultasPorCedula {
     }
 
     @Nullable
-    public static String getMultasFromCedula(Context mContext) {
+    public static String getMultasFromPlaca(Context mContext) {
         if (!isInitDone()) {
-            return null;
+            return null; //todo specific msg error (must also be done for la cedula)
         }
 
-        if (!isCedulaNbConsistent()) {
-            return mContext.getString(R.string.msg_cedula_not_valid);
+        if (!isPlacaNbConsistent()) {
+            return mContext.getString(R.string.msg_placa_not_valid);
         }
 
-        String idPersona;
-        String cedulaNb = sharedPref.getString(key_cedula, defaultCedulaNb);
-
-        //is cedula validated? (if id persona is validated so cedula nb)
-        if (isIdPersonaValidated()) {
-            idPersona = sharedPref.getString(key_id_persona, defaultIdPersona);
-        } else {
-            //find id cedula
-            if (!utils.isNetworkAvailable()) {
-                return mContext.getString(R.string.no_internet_connection);
-            }
-
-            String url = String.format(link_to_multas_page_list, "CED", cedulaNb, "");
-            String html;
-            try {
-                html = utils.downloadUrl(url);
-            } catch (IOException e) {
-                return mContext.getString(R.string.no_server_connection);
-            }
-
-            try {
-                idPersona = extractIdPersona(mContext, html);
-            } catch (WrongIdPersonaException e) {
-                return e.getMessage();
-            }
-        }
+        String placaNb = getPlacaNb();
 
         //full json link:
         String multasUrl = String.format(
                 mContext.getString(R.string.link_to_xjson_multas_list),
-                "P", "", idPersona, "", cedulaNb, "CED", System.currentTimeMillis());
+                "P", "", "", "", placaNb, "PLACA", System.currentTimeMillis());
 
         if (utils.isNetworkUnAvailable()) {
             return mContext.getString(R.string.no_internet_connection);
@@ -166,20 +138,13 @@ class MultasPorCedula {
         return initDone;
     }
 
-    public static boolean isCedulaNbConsistent() {
-        return sharedPref.getBoolean(key_cedula_nb_consistent, false);
+    public static boolean isPlacaNbConsistent() {
+        return sharedPref.getBoolean(key_placa_nb_consistent, false);
     }
 
-    private static boolean isIdPersonaValidated() {
-        return sharedPref.getBoolean(key_id_persona_validated, false);
-    }
-
-    public static String getCedulaNb() {
-        return sharedPref.getString(key_cedula, defaultCedulaNb);
-    }
-
-    public static String getIdPersona() {
-        return sharedPref.getString(key_id_persona, defaultIdPersona);
+    public static String getPlacaNb() {
+        return sharedPref.getString(key_placa_nb1, defaultPlacaNb1) +
+                sharedPref.getString(key_placa_nb2, defaultPlacaNb1);
     }
 
     public static String getTotalMultas() {
@@ -190,38 +155,17 @@ class MultasPorCedula {
         return sharedPref.getString(key_update_time, default_update_time);
     }
 
-    private static void resetAllSharedButCedulaNb() {
-        utils.saveShared(key_id_persona, defaultIdPersona);
+    private static void resetAllSharedButPlacaNb() {
         utils.saveShared(key_total_multas, default_total_multas);
         utils.saveShared(key_update_time, default_update_time);
-        utils.saveShared(key_id_persona_validated, false);
-        utils.saveShared(key_last_total, 0.0f); //todo: what that for?
+        utils.saveShared(key_last_total, 0.0f);
     }
 
     private static void resetAllShared() {
-        utils.saveShared(key_cedula, defaultCedulaNb);
-        utils.saveShared(key_cedula_nb_consistent, false);
-        resetAllSharedButCedulaNb();
-    }
-
-    private static String extractIdPersona(Context mContext, String html)
-            throws WrongIdPersonaException {
-        //extract id persona:
-        String preIdPersona = mContext.getString(R.string.previous_id_persona);
-        int startPosition = html.indexOf(preIdPersona);
-        startPosition += preIdPersona.length();
-        int endPosition = startPosition + 15;
-        String idPersonaStr = html.substring(startPosition, endPosition);
-        String idPersona = utils.extractFirstNbAsString(idPersonaStr);
-        Utils.log(Log.INFO, TAG, "id persona: " + idPersona);
-
-        if (Double.parseDouble(idPersona) < 1000) {
-            throw new WrongIdPersonaException(
-                    mContext.getString(R.string.msg_cedula_not_valid));
-        }
-        utils.saveShared(key_id_persona, idPersona);
-        utils.saveShared(key_id_persona_validated, true);
-        return idPersona;
+        utils.saveShared(key_placa_nb1, defaultPlacaNb1);
+        utils.saveShared(key_placa_nb1, defaultPlacaNb2);
+        utils.saveShared(key_placa_nb_consistent, false);
+        resetAllSharedButPlacaNb();
     }
 
     private static void saveMultas(Context mContext, String jsonTxt)
