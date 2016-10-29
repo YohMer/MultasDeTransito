@@ -53,9 +53,9 @@ class MultasPorPlaca extends MultasPorNb{
         key_placa_nb1 = mContext.getString(R.string.key_placa_nb1_saved);
         key_placa_nb2 = mContext.getString(R.string.key_placa_nb2_saved);
         key_placa_nb_consistent = mContext.getString(R.string.key_placa_valid);
-        key_total_multas = mContext.getString(R.string.key_total_multas);
+        key_total_multas = mContext.getString(R.string.key_total_multas_placa);
         key_last_total = mContext.getString(R.string.key_last_total);
-        key_update_time = mContext.getString(R.string.key_last_update_time);
+        key_update_time = mContext.getString(R.string.key_last_update_placa_time);
         link_to_multas_page_list = mContext.getString(R.string.link_to_multas_page_list);
         @SuppressWarnings("UnusedAssignment") String key_EULA_accepted = mContext.getString(R.string.key_EULA_accepted);
 
@@ -106,7 +106,7 @@ class MultasPorPlaca extends MultasPorNb{
         //full json link:
         String multasUrl = String.format(
                 mContext.getString(R.string.link_to_xjson_multas_list),
-                "P", "", "", "", placaNb, "PLACA", System.currentTimeMillis());
+                "P", "", "", placaNb, placaNb, "PLA", System.currentTimeMillis());
 
         if (utils.isNetworkUnAvailable()) {
             return mContext.getString(R.string.no_internet_connection);
@@ -119,8 +119,8 @@ class MultasPorPlaca extends MultasPorNb{
             return mContext.getString(R.string.no_internet_connection);
         }
 
-        try {
-            saveMultas(mContext, json);
+        try {//TODO: get id persona for the placa and verify if placa exists
+            saveMultas(mContext, json, key_total_multas, key_update_time);
         } catch (JSONException e) {
             Utils.logException(TAG, e);
             return mContext.getString(R.string.msg_json_not_valid);
@@ -139,7 +139,13 @@ class MultasPorPlaca extends MultasPorNb{
 
     public static String getPlacaNb() {
         return sharedPref.getString(key_placa_nb1, defaultPlacaNb1) +
-                sharedPref.getString(key_placa_nb2, defaultPlacaNb1);
+                sharedPref.getString(key_placa_nb2, defaultPlacaNb2);
+    }
+    public static String getPlacaNb1() {
+        return sharedPref.getString(key_placa_nb1, defaultPlacaNb1);
+    }
+    public static String getPlacaNb2() {
+        return sharedPref.getString(key_placa_nb2, defaultPlacaNb2);
     }
 
     public static String getTotalMultas() {

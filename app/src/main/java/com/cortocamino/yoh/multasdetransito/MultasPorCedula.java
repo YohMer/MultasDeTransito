@@ -60,9 +60,9 @@ class MultasPorCedula extends MultasPorNb{
         key_cedula_nb_consistent = mContext.getString(R.string.key_cedula_valid);
         key_id_persona = mContext.getString(R.string.key_id_persona);
         key_id_persona_validated = mContext.getString(R.string.key_id_persona_validated);
-        key_total_multas = mContext.getString(R.string.key_total_multas);
+        key_total_multas = mContext.getString(R.string.key_total_multas_cedula);
         key_last_total = mContext.getString(R.string.key_last_total);
-        key_update_time = mContext.getString(R.string.key_last_update_time);
+        key_update_time = mContext.getString(R.string.key_last_update_cedula_time);
         link_to_multas_page_list = mContext.getString(R.string.link_to_multas_page_list);
         @SuppressWarnings("UnusedAssignment") String key_EULA_accepted = mContext.getString(R.string.key_EULA_accepted);
 
@@ -149,7 +149,7 @@ class MultasPorCedula extends MultasPorNb{
         }
 
         try {
-            saveMultas(mContext, json);
+            saveMultas(mContext, json, key_total_multas, key_update_time);
         } catch (JSONException e) {
             Utils.logException(TAG, e);
             return mContext.getString(R.string.msg_json_not_valid);

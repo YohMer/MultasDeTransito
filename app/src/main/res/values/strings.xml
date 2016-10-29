@@ -39,7 +39,8 @@
     <string name="devise">$</string>
     <string name="default_total_multas">\??.?? </string>
     <string name="total_multas">total multas: </string>
-    <string name="key_total_multas">keyTotalMulta</string>
+    <string name="key_total_multas_cedula">keyTotalMultaCed</string>
+    <string name="key_total_multas_placa">keyTotalMultaPla</string>
     <string name="key_last_total">lastTotal</string>
     <string name="key_full_link_to_xjson_multas_list">keyLinkMultas</string>
 
@@ -52,7 +53,8 @@
     <string name="link_to_xjson_multas_list" tools:ignore="all">http://sistemaunico.ant.gob.ec:6033/PortalWEB/paginas/clientes/clp_json_citaciones.jsp?ps_opcion=%1$s&amp;ps_id_contrato=%2$s&amp;ps_id_persona=%3$s&amp;ps_placa=%4$s&amp;ps_identificacion=%5$s&amp;ps_tipo_identificacion=%6$s&amp;_search=false&amp;nd=%7$s&amp;rows=50&amp;page=1&amp;sidx=fecha_emision&amp;sord=desc</string>
 
     //states keys:
-    <string name="key_last_update_time">keyLastUpdateTime</string>
+    <string name="key_last_update_cedula_time">keyLastUpdateCedTime</string>
+    <string name="key_last_update_placa_time">keyLastUpdatePlaTime</string>
     <string name="key_activity_on">activityState</string>
     <string name="key_no_network">noNetwork</string>
 

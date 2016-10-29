@@ -21,7 +21,8 @@ import java.util.Locale;
 
 public abstract class MultasPorNb {
 
-    public static void saveMultas(Context mContext, String jsonTxt)
+    public static void saveMultas(Context mContext, String jsonTxt,
+                                  String key_total_multas, String key_update_time)
             throws JSONException {
         Utils utils = new Utils(mContext);
         float total = 0;
@@ -39,9 +40,7 @@ public abstract class MultasPorNb {
         totalStr = String.format("%s", total);
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", new Locale("es-EC"));
         String dateStr = df.format(System.currentTimeMillis());
-        utils.saveShared(
-                mContext.getString(R.string.key_total_multas), totalStr);
-        utils.saveShared(
-                mContext.getString(R.string.key_last_update_time), dateStr);
+        utils.saveShared(key_total_multas, totalStr);
+        utils.saveShared(key_update_time, dateStr);
     }
 }

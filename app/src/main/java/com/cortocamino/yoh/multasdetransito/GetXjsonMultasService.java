@@ -29,7 +29,7 @@ public class GetXjsonMultasService extends IntentService {
         Utils utils = new Utils(this);
         SharedPreferences sharedPref =
                 PreferenceManager.getDefaultSharedPreferences(this);
-        String key_total_multas = getString(R.string.key_total_multas);
+        String key_total_multas = getString(R.string.key_total_multas_cedula);
         String key_last_total = getString(R.string.key_last_total);
         Float lastTotal = sharedPref.getFloat(key_last_total, 0f);
 

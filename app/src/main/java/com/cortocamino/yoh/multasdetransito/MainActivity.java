@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private PendingIntent pendingIntent;
     private Utils utils;
     private SharedPreferences sharedPref;
+    private long currentView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             findViewById(R.id.debug_id_persona).setVisibility(View.VISIBLE);
 
         MultasPorCedula.init(this);
+        MultasPorPlaca.init(this);
 
         if (!(sharedPref.getBoolean(key_EULA_accepted, false))) {
             showEULA();
@@ -71,7 +73,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, alarmIntent, 0);
         startAlarm();
 
-        startListenerKeyboard(this, (EditText) findViewById(R.id.cedulaNb));
+        startListenerCedulaKeyboard(this, (EditText) findViewById(R.id.cedulaNb));
+        startListenerPlacaKeyboard2(this,(EditText) findViewById(R.id.placaNb2));
     }
 
     @Override
@@ -89,16 +92,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onItemSelected(AdapterView<?> parent, View view,
                                int pos, long id) {
+        currentView = id;
         if (id == 0) {
-            findViewById(R.id.placaNb1).setVisibility(View.GONE);
-            findViewById(R.id.placaNb2).setVisibility(View.GONE);
-            findViewById(R.id.cedulaNb).setVisibility(View.VISIBLE);
-
+            showCedula();
         } else if (id == 1) {
-            findViewById(R.id.cedulaNb).setVisibility(View.GONE);
-            findViewById(R.id.placaNb1).setVisibility(View.VISIBLE);
-            findViewById(R.id.placaNb2).setVisibility(View.VISIBLE);
-
+            showPlaca();
         }
         // An item was selected. You can retrieve the selected item using
         // parent.getItemAtPosition(pos)
@@ -107,6 +105,20 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
         // Another interface callback
+    }
+
+    private void showCedula(){
+        updateViewCedulaValues();
+        findViewById(R.id.placaNb1).setVisibility(View.GONE);
+        findViewById(R.id.placaNb2).setVisibility(View.GONE);
+        findViewById(R.id.cedulaNb).setVisibility(View.VISIBLE);
+    }
+
+    private void showPlaca(){
+        updateViewPlacaValues();
+        findViewById(R.id.cedulaNb).setVisibility(View.GONE);
+        findViewById(R.id.placaNb1).setVisibility(View.VISIBLE);
+        findViewById(R.id.placaNb2).setVisibility(View.VISIBLE);
     }
 
     private void createSpinner(@SuppressWarnings("SameParameterValue") int id) {
@@ -130,14 +142,39 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    private void startListenerKeyboard(final Context context, final EditText editText) {
+    private void startListenerCedulaKeyboard(final Context context, final EditText editText) {
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView view, int actionId, KeyEvent event) {
                 boolean handled = false;
                 if (actionId == EditorInfo.IME_ACTION_SEND) {
                     boolean result =
-                            MultasPorCedula.changeCedulaNb(context, editText.getText().toString());
+                            MultasPorCedula.changeCedulaNb(context,
+                                    editText.getText().toString());
+
+                    if (result) {
+                        hideSoftKeyboard(view);
+                    }
+                    handled = true;
+
+                    refresh(view);
+                }
+                return handled;
+            }
+        });
+    }
+
+    private void startListenerPlacaKeyboard2(final Context context, final EditText editText2) {
+        final EditText editText1 = (EditText) findViewById(R.id.placaNb1);
+        editText2.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView view, int actionId, KeyEvent event) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_SEND) {
+                    boolean result =
+                            MultasPorPlaca.changePlacaNb(context,
+                                    editText1.getText().toString(),
+                                    editText2.getText().toString());
 
                     if (result) {
                         hideSoftKeyboard(view);
@@ -152,8 +189,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     private void updateView(String faultMsg) {
-        updateViewValues();
-
         //show fault msg only if there is a fault:
         ((TextView) findViewById(R.id.info1)).setText(faultMsg);
         if (faultMsg.equals(getString(R.string.done))) {
@@ -177,12 +212,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 MultasPorCedula.isCedulaNbConsistent() ? View.VISIBLE : View.INVISIBLE);
     }
 
-    private void updateViewValues() {
+    private void updateViewCedulaValues() {
         //show cédula Nb:
         String cedulaNb = MultasPorCedula.getCedulaNb();
         if (cedulaNb.equals(getString(R.string.default_cedula_nb))) {
             ((EditText) findViewById(R.id.cedulaNb)).setText("");
-        } else {
+        } else { //todo: keep only the else part
             ((EditText) findViewById(R.id.cedulaNb)).setText(cedulaNb);
         }
 
@@ -201,10 +236,33 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         ((TextView) findViewById(R.id.date_update)).setText(time);
     }
 
+    private void updateViewPlacaValues() {
+        //show cédula Nb:
+        String placaNb1 = MultasPorPlaca.getPlacaNb1();
+        String placaNb2 = MultasPorPlaca.getPlacaNb2();
+        if (!(placaNb1.equals(getString(R.string.default_placa_nb1))) ||
+                (!(placaNb2.equals(getString(R.string.default_placa_nb2))))){
+            ((EditText) findViewById(R.id.placaNb1)).setText(placaNb1);
+            ((EditText) findViewById(R.id.placaNb2)).setText(placaNb2);
+        }
+
+        //show total multas:
+        String totalStr = MultasPorPlaca.getTotalMultas();
+        ((TextView) findViewById(R.id.total_multas_value)).setText(totalStr);
+
+        //show last update time:
+        String time = MultasPorPlaca.getLastUpdateTime();
+        ((TextView) findViewById(R.id.date_update)).setText(time);
+    }
+
     public void refresh(@SuppressWarnings("UnusedParameters") View view) {
         findViewById(R.id.info1).setVisibility(View.INVISIBLE);
         (findViewById(R.id.btn_refresh)).setVisibility(View.INVISIBLE);
-        updateAll();
+        if ( currentView == 0){
+            new updateCedula().execute("");
+        }else if ( currentView == 1){
+            new updatePlaca().execute("");
+        }
     }
 
     public void goToGovWebSite(@SuppressWarnings("UnusedParameters") View view) {
@@ -256,11 +314,28 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         @Override
         protected void onPostExecute(String faultMsg) {
+            updateViewCedulaValues();
+            updateView(faultMsg);
+        }
+    }
+
+    private class updatePlaca extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String empty[]) {
+            //connection to the server to retrieve multas value
+            return MultasPorPlaca.getMultasFromPlaca(MainActivity.this);
+        }
+
+        @Override
+        protected void onPostExecute(String faultMsg) {
+            updateViewPlacaValues();
             updateView(faultMsg);
         }
     }
 
     private void updateAll(){
+        //cedula must be second because it s the one to be shown at first
+        new updatePlaca().execute("");
         new updateCedula().execute("");
     }
 }
