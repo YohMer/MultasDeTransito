@@ -22,7 +22,7 @@ public class DeviceBootReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context mContext, Intent intent) {
-        if(intent.getAction().equals("android.intent.action.BOOT_COMPLETED")){
+        if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
             Intent alarmIntent = new Intent(mContext, AlarmReceiver.class);
 
             PendingIntent pendingIntent =

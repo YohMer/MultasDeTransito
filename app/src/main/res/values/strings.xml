@@ -75,7 +75,7 @@
     <string name="update">actualizar</string>
     <string name="valid">OK</string>  //\u23CE
     <string name="link_to_gov_txt">sitio web oficial</string>
-    
+
     //licence:
     <string name="EULA_title">Acuerdo de Licencia con el Usuario Final</string>
     <string name="MIT_licence">
@@ -86,7 +86,7 @@
         El aviso de copyright anterior y este aviso de permiso se incluirán en todas las copias o partes sustanciales del Software.
         \n\n
         EL SOFTWARE SE PROPORCIONA "TAL CUAL", SIN GARANTÍA DE NINGÚN TIPO, EXPRESA O IMPLÍCITA, INCLUYENDO PERO NO LIMITADO A GARANTÍAS DE COMERCIALIZACIÓN, IDONEIDAD PARA UN PROPÓSITO PARTICULAR Y NO INFRACCIÓN. EN NINGÚN CASO LOS AUTORES O TITULARES DEL COPYRIGHT SERÁN RESPONSABLES DE NINGUNA RECLAMACIÓN, DAÑOS U OTRAS RESPONSABILIDADES, YA SEA EN UN LITIGIO, AGRAVIO O DE OTRO MODO, QUE SURJA DE O EN CONEXIÓN CON EL SOFTWARE O EL USO U OTRO TIPO DE ACCIONES EN EL SOFTWARE.  </string>
-        \n\n
+    \n\n
     <string name="licence_question_validation">Al usar este programa, usted aprueba las condiciones de uso descrito en la licencia más arriba.</string>
     <string name="licence_ok">Aprobó</string>
     <string name="licence_refuse">Salir</string>

@@ -18,7 +18,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 public class AlarmReceiver extends BroadcastReceiver {
-    static private final String TAG= "AlarmReceiver";
+    static private final String TAG = "AlarmReceiver";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -27,7 +27,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         String key_activity_on = context.getString(R.string.key_activity_on);
 
         //if activity run do nothing
-        if(sharedPref.getBoolean(key_activity_on, false)){
+        if (sharedPref.getBoolean(key_activity_on, false)) {
             Utils.debugToast(context, "activity on, no service will run");
             Utils.log(Log.INFO, TAG, "activity on, no service will run");
             return;

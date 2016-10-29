@@ -34,16 +34,16 @@ public class EulaActivity extends Activity {
     }
 
     @SuppressWarnings("UnusedParameters")
-    public void okBtn(View view){
+    public void okBtn(View view) {
         utils.saveShared(key_EULA_accepted, true);
         finish();
     }
 
     @SuppressWarnings("UnusedParameters")
-    public void refuseBtn(View view){
+    public void refuseBtn(View view) {
         utils.saveShared(key_EULA_accepted, false);
         Intent homeIntent = new Intent(Intent.ACTION_MAIN);
-        homeIntent.addCategory( Intent.CATEGORY_HOME );
+        homeIntent.addCategory(Intent.CATEGORY_HOME);
         homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(homeIntent);
     }

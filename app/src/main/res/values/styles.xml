@@ -16,8 +16,10 @@
         <item name="android:spinnerItemStyle">@style/spinnerItemStyle</item>
         <item name="android:dropDownListViewStyle">@style/mySpinnerStyle</item>
     </style>
+
     <style name="spinnerItemStyle">
     </style>
+
     <style name="mySpinnerStyle" parent="android:Widget.ListView.DropDown">
     </style>
 </resources>

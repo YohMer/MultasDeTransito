@@ -32,34 +32,37 @@ class Utils {
     private final SharedPreferences sharedPref;
     private final SharedPreferences.Editor editor;
 
-    public Utils(Context mContext){
+    public Utils(Context mContext) {
         this.mContext = mContext;
         sharedPref = PreferenceManager.getDefaultSharedPreferences(mContext);
         editor = sharedPref.edit();
     }
 
-    public void saveShared(String key, Float value){
-        editor.putFloat(key ,value);
-        editor.apply();
-    }
-    @SuppressWarnings("unused")
-    public void saveShared(String key, Long value){
-        editor.putLong(key ,value);
-        editor.apply();
-    }
-    public void saveShared(String key, String value){
-        editor.putString(key ,value);
-        editor.apply();
-    }
-    public void saveShared(String key, Boolean value){
-        editor.putBoolean(key ,value);
+    public void saveShared(String key, Float value) {
+        editor.putFloat(key, value);
         editor.apply();
     }
 
-    public String extractFirstNbAsString(String s){
+    @SuppressWarnings("unused")
+    public void saveShared(String key, Long value) {
+        editor.putLong(key, value);
+        editor.apply();
+    }
+
+    public void saveShared(String key, String value) {
+        editor.putString(key, value);
+        editor.apply();
+    }
+
+    public void saveShared(String key, Boolean value) {
+        editor.putBoolean(key, value);
+        editor.apply();
+    }
+
+    public String extractFirstNbAsString(String s) {
         Pattern p = Pattern.compile("(\\d+)(.*)");
         Matcher m = p.matcher(s);
-        if (m.find()){
+        if (m.find()) {
             return m.group(1);
         } else {
             return "";
@@ -69,14 +72,14 @@ class Utils {
     //most of the code here after is from or adapted from:
     //https://developer.android.com/training/basics/network-ops/connecting.html#connection
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
-    public boolean isNetworkAvailable(){
+    public boolean isNetworkAvailable() {
         ConnectivityManager connMgr = (ConnectivityManager)
                 mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         return networkInfo != null && networkInfo.isConnected();
     }
 
-    public boolean isNetworkUnAvailable(){
+    public boolean isNetworkUnAvailable() {
         return !isNetworkAvailable();
     }
 
@@ -109,8 +112,8 @@ class Utils {
         }
     }
 
-    static void debugToast(Context mContext, String msg){
-        if (Config.MY_DEBUG){
+    static void debugToast(Context mContext, String msg) {
+        if (Config.MY_DEBUG) {
             Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
         }
     }
@@ -120,8 +123,8 @@ class Utils {
         return s.hasNext() ? s.next() : "";
     }
 
-    static void log(@SuppressWarnings("SameParameterValue") int priority, String tag, String msg){
-        if(!Config.MY_DEBUG) {
+    static void log(@SuppressWarnings("SameParameterValue") int priority, String tag, String msg) {
+        if (!Config.MY_DEBUG) {
             Crashlytics.log(priority, tag, msg);
         } else if (priority == Log.ASSERT) {
             Log.w(tag, msg);
@@ -138,8 +141,8 @@ class Utils {
         }
     }
 
-    static void logException(@SuppressWarnings("SameParameterValue") String tag, Exception e){
-        if(!Config.MY_DEBUG) {
+    static void logException(@SuppressWarnings("SameParameterValue") String tag, Exception e) {
+        if (!Config.MY_DEBUG) {
             Crashlytics.logException(e);
         } else {
             Log.wtf(tag, e);

@@ -60,11 +60,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         MultasPorCedula.init(this);
 
-        if (!(sharedPref.getBoolean(key_EULA_accepted, false))){
+        if (!(sharedPref.getBoolean(key_EULA_accepted, false))) {
             showEULA();
         }
 
-        new updateAll().execute("");
+        updateAll();
 
         //init alarm:
         Intent alarmIntent = new Intent(MainActivity.this, AlarmReceiver.class);
@@ -89,12 +89,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onItemSelected(AdapterView<?> parent, View view,
                                int pos, long id) {
-        if (id == 0){
+        if (id == 0) {
             findViewById(R.id.placaNb1).setVisibility(View.GONE);
             findViewById(R.id.placaNb2).setVisibility(View.GONE);
             findViewById(R.id.cedulaNb).setVisibility(View.VISIBLE);
 
-        } else if (id == 1){
+        } else if (id == 1) {
             findViewById(R.id.cedulaNb).setVisibility(View.GONE);
             findViewById(R.id.placaNb1).setVisibility(View.VISIBLE);
             findViewById(R.id.placaNb2).setVisibility(View.VISIBLE);
@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         // Another interface callback
     }
 
-    private void createSpinner(@SuppressWarnings("SameParameterValue") int id){
+    private void createSpinner(@SuppressWarnings("SameParameterValue") int id) {
         Spinner spinner = (Spinner) findViewById(id);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.look_for_array, R.layout.spinner_item);
@@ -117,19 +117,20 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
     }
-    public void showSoftKeyboard(View view){
-        if(view.requestFocus()){
-            InputMethodManager imm =(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.showSoftInput(view,InputMethodManager.SHOW_IMPLICIT);
+
+    public void showSoftKeyboard(View view) {
+        if (view.requestFocus()) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
         }
     }
 
-    private void hideSoftKeyboard(View view){
-        InputMethodManager imm =(InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+    private void hideSoftKeyboard(View view) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    private void startListenerKeyboard(final Context context, final EditText editText){
+    private void startListenerKeyboard(final Context context, final EditText editText) {
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView view, int actionId, KeyEvent event) {
@@ -138,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     boolean result =
                             MultasPorCedula.changeCedulaNb(context, editText.getText().toString());
 
-                    if (result){
+                    if (result) {
                         hideSoftKeyboard(view);
                     }
                     handled = true;
@@ -150,12 +151,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         });
     }
 
-    private void updateView(String faultMsg){
+    private void updateView(String faultMsg) {
         updateViewValues();
 
         //show fault msg only if there is a fault:
-        ((TextView)findViewById(R.id.info1)).setText(faultMsg);
-        if (faultMsg.equals(getString(R.string.done))){
+        ((TextView) findViewById(R.id.info1)).setText(faultMsg);
+        if (faultMsg.equals(getString(R.string.done))) {
             findViewById(R.id.info1).setVisibility(View.INVISIBLE);
         } else {
             Crashlytics.log(Log.INFO, TAG, "msg on screen: " + faultMsg);
@@ -173,54 +174,43 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         //show actualizar only if cédula can be valid:
         findViewById(R.id.btn_refresh).setVisibility(
-                MultasPorCedula.isCedulaNbConsistent()?View.VISIBLE:View.INVISIBLE);
+                MultasPorCedula.isCedulaNbConsistent() ? View.VISIBLE : View.INVISIBLE);
     }
-    private void updateViewValues(){
+
+    private void updateViewValues() {
         //show cédula Nb:
         String cedulaNb = MultasPorCedula.getCedulaNb();
-        if(cedulaNb.equals(getString(R.string.default_cedula_nb))){
+        if (cedulaNb.equals(getString(R.string.default_cedula_nb))) {
             ((EditText) findViewById(R.id.cedulaNb)).setText("");
         } else {
             ((EditText) findViewById(R.id.cedulaNb)).setText(cedulaNb);
         }
 
         //show id persona:
-        if (Config.MY_DEBUG){
+        if (Config.MY_DEBUG) {
             String idPersona = MultasPorCedula.getIdPersona();
-            ((TextView)findViewById(R.id.debug_id_persona)).setText(idPersona);
+            ((TextView) findViewById(R.id.debug_id_persona)).setText(idPersona);
         }
 
         //show total multas:
         String totalStr = MultasPorCedula.getTotalMultas();
-        ((TextView)findViewById(R.id.total_multas_value)).setText(totalStr);
+        ((TextView) findViewById(R.id.total_multas_value)).setText(totalStr);
 
         //show last update time:
         String time = MultasPorCedula.getLastUpdateTime();
-        ((TextView)findViewById(R.id.date_update)).setText(time);
+        ((TextView) findViewById(R.id.date_update)).setText(time);
     }
 
-    public void refresh(@SuppressWarnings("UnusedParameters") View view){
+    public void refresh(@SuppressWarnings("UnusedParameters") View view) {
         findViewById(R.id.info1).setVisibility(View.INVISIBLE);
         (findViewById(R.id.btn_refresh)).setVisibility(View.INVISIBLE);
-        new updateAll().execute("");
+        updateAll();
     }
-    public void goToGovWebSite(@SuppressWarnings("UnusedParameters") View view){
+
+    public void goToGovWebSite(@SuppressWarnings("UnusedParameters") View view) {
         Uri uri = Uri.parse(getString(R.string.link_to_gov));
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
-    }
-
-    private class updateAll extends AsyncTask<String, Void, String>{
-        @Override
-        protected String doInBackground(String empty[]) {
-            //connection to the server to retrieve multas value
-            return MultasPorCedula.getMultasFromCedula(MainActivity.this);
-        }
-
-        @Override
-        protected void onPostExecute(String faultMsg) {
-            updateView(faultMsg);
-        }
     }
 
     private void startAlarm() {
@@ -231,7 +221,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
                 interval, pendingIntent);
-        Utils.debugToast(this,"Alarm Set from startAlarm");
+        Utils.debugToast(this, "Alarm Set from startAlarm");
 
         //enable the schedule alarm
         ComponentName alarmReceiver = new ComponentName(MainActivity.this,
@@ -252,8 +242,25 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 PackageManager.DONT_KILL_APP);
     }
 
-    private void showEULA(){
+    private void showEULA() {
         Intent intent = new Intent(this, EulaActivity.class);
         startActivity(intent);
+    }
+
+    private class updateCedula extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String empty[]) {
+            //connection to the server to retrieve multas value
+            return MultasPorCedula.getMultasFromCedula(MainActivity.this);
+        }
+
+        @Override
+        protected void onPostExecute(String faultMsg) {
+            updateView(faultMsg);
+        }
+    }
+
+    private void updateAll(){
+        new updateCedula().execute("");
     }
 }
