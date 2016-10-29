@@ -13,6 +13,8 @@ package com.cortocamino.yoh.multasdetransito;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -23,12 +25,9 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
-/**
- * Created by yoh on 7/13/16.
- */
-public class MultasPorCedula {
+class MultasPorCedula {
 
-    final static String TAG = "MultasPorCedula";
+    private final static String TAG = "MultasPorCedula";
 
     private static Utils utils;
     private static SharedPreferences sharedPref;
@@ -69,7 +68,7 @@ public class MultasPorCedula {
         key_last_total = mContext.getString(R.string.key_last_total);
         key_update_time = mContext.getString(R.string.key_last_update_time);
         link_to_multas_page_list = mContext.getString(R.string.link_to_multas_page_list);
-        String key_EULA_accepted = mContext.getString(R.string.key_EULA_accepted);
+        @SuppressWarnings("UnusedAssignment") String key_EULA_accepted = mContext.getString(R.string.key_EULA_accepted);
 
         initDone = true;
 
@@ -79,8 +78,9 @@ public class MultasPorCedula {
         }
     }
 
-    public static Boolean changeCedulaNb(Context mcontext, String cedulaNb){
-        Utils utils = new Utils(mcontext);
+    @NonNull
+    public static Boolean changeCedulaNb(Context mContext, String cedulaNb){
+        Utils utils = new Utils(mContext);
         
         if((cedulaNb.length() == 10) && (Double.parseDouble(cedulaNb) > 0)) {
             utils.saveShared(key_cedula_nb_consistent, true);
@@ -98,6 +98,7 @@ public class MultasPorCedula {
             return false;
         }
     }
+    @Nullable
     public static String getMultasFromCedula(Context mContext){
         if (!isInitDone()){
             return null;
@@ -139,7 +140,7 @@ public class MultasPorCedula {
                 mContext.getString(R.string.link_to_xjson_multas_list),
                 "P", "", idPersona, "", cedulaNb, "CED", System.currentTimeMillis());
 
-        if (!utils.isNetworkAvailable()){
+        if (utils.isNetworkUnAvailable()){
             return mContext.getString(R.string.no_internet_connection);
         }
 
@@ -162,13 +163,13 @@ public class MultasPorCedula {
         return mContext.getString(R.string.done);
     }
 
-    public static boolean isInitDone() {
+    private static boolean isInitDone() {
         return initDone;
     }
     public static boolean isCedulaNbConsistent() {
         return sharedPref.getBoolean(key_cedula_nb_consistent,  false);
     }
-    public static boolean isIdPersonaValidated() {
+    private static boolean isIdPersonaValidated() {
         return sharedPref.getBoolean(key_id_persona_validated,  false);
     }
 

@@ -27,13 +27,10 @@ import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by yoh on 7/3/16.
- */
-public class Utils {
-    Context mContext;
-    SharedPreferences sharedPref;
-    SharedPreferences.Editor editor;
+class Utils {
+    private final Context mContext;
+    private final SharedPreferences sharedPref;
+    private final SharedPreferences.Editor editor;
 
     public Utils(Context mContext){
         this.mContext = mContext;
@@ -45,6 +42,7 @@ public class Utils {
         editor.putFloat(key ,value);
         editor.apply();
     }
+    @SuppressWarnings("unused")
     public void saveShared(String key, Long value){
         editor.putLong(key ,value);
         editor.apply();
@@ -70,6 +68,7 @@ public class Utils {
 
     //most of the code here after is from or adapted from:
     //https://developer.android.com/training/basics/network-ops/connecting.html#connection
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean isNetworkAvailable(){
         ConnectivityManager connMgr = (ConnectivityManager)
                 mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -77,16 +76,20 @@ public class Utils {
         return networkInfo != null && networkInfo.isConnected();
     }
 
+    public boolean isNetworkUnAvailable(){
+        return !isNetworkAvailable();
+    }
+
     // Given a URL, establishes an HttpUrlConnection and retrieves
     // the web page content as a InputStream, which it returns as
     // a string.
-    public String downloadUrl(String myurl) throws IOException {
+    public String downloadUrl(String myUrl) throws IOException {
         InputStream is = null;
         // Only display the first 500 characters of the retrieved
         // web page content.
 
         try {
-            URL url = new URL(myurl);
+            URL url = new URL(myUrl);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setReadTimeout(10000); // milliseconds
             conn.setConnectTimeout(15000); // milliseconds
@@ -112,12 +115,12 @@ public class Utils {
         }
     }
 
-    static String convertStreamToString(java.io.InputStream is) {
+    private static String convertStreamToString(java.io.InputStream is) {
         java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
         return s.hasNext() ? s.next() : "";
     }
 
-    static void log(int priority, String tag, String msg){
+    static void log(@SuppressWarnings("SameParameterValue") int priority, String tag, String msg){
         if(!Config.MY_DEBUG) {
             Crashlytics.log(priority, tag, msg);
         } else if (priority == Log.ASSERT) {
@@ -135,7 +138,7 @@ public class Utils {
         }
     }
 
-    static void logException(String tag, Exception e){
+    static void logException(@SuppressWarnings("SameParameterValue") String tag, Exception e){
         if(!Config.MY_DEBUG) {
             Crashlytics.logException(e);
         } else {

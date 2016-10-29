@@ -18,9 +18,10 @@ import android.preference.PreferenceManager;
 import android.view.View;
 
 public class EulaActivity extends Activity {
-    Utils utils;
-    SharedPreferences sharedPref;
-    String key_EULA_accepted;
+    private Utils utils;
+    @SuppressWarnings("unused")
+    private SharedPreferences sharedPref;
+    private String key_EULA_accepted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +33,13 @@ public class EulaActivity extends Activity {
         setContentView(R.layout.activity_eula);
     }
 
+    @SuppressWarnings("UnusedParameters")
     public void okBtn(View view){
         utils.saveShared(key_EULA_accepted, true);
         finish();
     }
 
+    @SuppressWarnings("UnusedParameters")
     public void refuseBtn(View view){
         utils.saveShared(key_EULA_accepted, false);
         Intent homeIntent = new Intent(Intent.ACTION_MAIN);

@@ -39,10 +39,10 @@ import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    static private String TAG = "MainActivity";
+    static private final String TAG = "MainActivity";
     private PendingIntent pendingIntent;
-    Utils utils;
-    SharedPreferences sharedPref;
+    private Utils utils;
+    private SharedPreferences sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         // Another interface callback
     }
 
-    public void createSpinner(int id){
+    private void createSpinner(@SuppressWarnings("SameParameterValue") int id){
         Spinner spinner = (Spinner) findViewById(id);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.look_for_array, R.layout.spinner_item);
@@ -124,12 +124,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     }
 
-    public void hideSoftKeyboard(View view){
+    private void hideSoftKeyboard(View view){
         InputMethodManager imm =(InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    public void startListenerKeyboard(final Context context, final EditText editText){
+    private void startListenerKeyboard(final Context context, final EditText editText){
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView view, int actionId, KeyEvent event) {
@@ -171,12 +171,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         }, 5000);
 
-        //show actualizar only if cedula can be valid:
+        //show actualizar only if cédula can be valid:
         findViewById(R.id.btn_refresh).setVisibility(
                 MultasPorCedula.isCedulaNbConsistent()?View.VISIBLE:View.INVISIBLE);
     }
     private void updateViewValues(){
-        //show cedula Nb:
+        //show cédula Nb:
         String cedulaNb = MultasPorCedula.getCedulaNb();
         if(cedulaNb.equals(getString(R.string.default_cedula_nb))){
             ((EditText) findViewById(R.id.cedulaNb)).setText("");
@@ -199,12 +199,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         ((TextView)findViewById(R.id.date_update)).setText(time);
     }
 
-    public void refresh(View view){
+    public void refresh(@SuppressWarnings("UnusedParameters") View view){
         findViewById(R.id.info1).setVisibility(View.INVISIBLE);
         (findViewById(R.id.btn_refresh)).setVisibility(View.INVISIBLE);
         new updateAll().execute("");
     }
-    public void goToGovWebSite(View view){
+    public void goToGovWebSite(@SuppressWarnings("UnusedParameters") View view){
         Uri uri = Uri.parse(getString(R.string.link_to_gov));
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
@@ -223,7 +223,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     }
 
-    public void startAlarm() {
+    private void startAlarm() {
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         String key_alarm_interval = getString(R.string.key_alarm_interval);
         long interval =
@@ -252,7 +252,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 PackageManager.DONT_KILL_APP);
     }
 
-    public void showEULA(){
+    private void showEULA(){
         Intent intent = new Intent(this, EulaActivity.class);
         startActivity(intent);
     }

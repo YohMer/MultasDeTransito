@@ -17,12 +17,9 @@ import android.content.Intent;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.app.NotificationCompat;
 
-/**
- * Created by yoh on 7/15/16.
- */
-public class SimpleNotificationBuilder extends NotificationCompat.Builder{
+class SimpleNotificationBuilder extends NotificationCompat.Builder{
 
-    SimpleNotificationBuilder(Context mContext, int mId, String title, String contentTxt){
+    SimpleNotificationBuilder(Context mContext, @SuppressWarnings("SameParameterValue") int mId, @SuppressWarnings("SameParameterValue") String title, String contentTxt){
         super(mContext);
         this.setSmallIcon(R.drawable.policeman_head)
                 .setContentTitle(title)

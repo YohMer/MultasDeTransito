@@ -8,12 +8,12 @@
   ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE
   -->
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_ref">com.cortocamino.multasdetransito</string>
     <string name="app_name">Multas De Transito</string>
 
     <string-array name="look_for_array">
-        <item>Cedula</item>
+        <item>Cédula</item>
         <item>Placa</item>
     </string-array>
 
@@ -49,8 +49,8 @@
 
     //links values:
     <string name="link_to_gov">http://sistemaunico.ant.gob.ec:6033/PortalWEB/paginas/clientes/clp_criterio_consulta.jsp</string>
-    <string name="link_to_multas_page_list">http://sistemaunico.ant.gob.ec:6033/PortalWEB/paginas/clientes/clp_grid_citaciones.jsp?ps_tipo_identificacion=%1$s&amp;ps_identificacion=%2$s&amp;ps_placa=%3$s</string>
-    <string name="link_to_xjson_multas_list">http://sistemaunico.ant.gob.ec:6033/PortalWEB/paginas/clientes/clp_json_citaciones.jsp?ps_opcion=%1$s&amp;ps_id_contrato=%2$s&amp;ps_id_persona=%3$s&amp;ps_placa=%4$s&amp;ps_identificacion=%5$s&amp;ps_tipo_identificacion=%6$s&amp;_search=false&amp;nd=%7$s&amp;rows=50&amp;page=1&amp;sidx=fecha_emision&amp;sord=desc</string>
+    <string name="link_to_multas_page_list" tools:ignore="all">http://sistemaunico.ant.gob.ec:6033/PortalWEB/paginas/clientes/clp_grid_citaciones.jsp?ps_tipo_identificacion=%1$s&amp;ps_identificacion=%2$s&amp;ps_placa=%3$s</string>
+    <string name="link_to_xjson_multas_list" tools:ignore="all">http://sistemaunico.ant.gob.ec:6033/PortalWEB/paginas/clientes/clp_json_citaciones.jsp?ps_opcion=%1$s&amp;ps_id_contrato=%2$s&amp;ps_id_persona=%3$s&amp;ps_placa=%4$s&amp;ps_identificacion=%5$s&amp;ps_tipo_identificacion=%6$s&amp;_search=false&amp;nd=%7$s&amp;rows=50&amp;page=1&amp;sidx=fecha_emision&amp;sord=desc</string>
 
     //states keys:
     <string name="key_last_update_time">keyLastUpdateTime</string>
@@ -62,16 +62,16 @@
     <string name="key_default_alarm_interval">defaultAlarmInterval</string>
 
     //messages:
-    <string name="no_internet_connection">No hay conneccion a internet</string>
+    <string name="no_internet_connection">No hay conexión a internet</string>
     <string name="no_server_connection">El servidor no esta accessible</string>
     <string name="msg_validating_cedula">Confirmando su numero de cedula</string>
     <string name="msg_cedula_not_valid">Su numero de cedula no esta reconocida</string>
-    <string name="msg_multas_not_accessible">No hay accesso al servidor</string>
+    <string name="msg_multas_not_accessible">No hay acceso al servidor</string>
     <string name="msg_json_not_valid">respuesta del servidor not valido</string>
     <string name="done">Done</string>
 
     //others:
-    <string name="last_update">ultima actualizacion: </string>
+    <string name="last_update">ultima actualización: </string>
     <string name="update">actualizar</string>
     <string name="valid">OK</string>  //\u23CE
     <string name="link_to_gov_txt">sitio web oficial</string>
@@ -87,8 +87,8 @@
         \n\n
         EL SOFTWARE SE PROPORCIONA "TAL CUAL", SIN GARANTÍA DE NINGÚN TIPO, EXPRESA O IMPLÍCITA, INCLUYENDO PERO NO LIMITADO A GARANTÍAS DE COMERCIALIZACIÓN, IDONEIDAD PARA UN PROPÓSITO PARTICULAR Y NO INFRACCIÓN. EN NINGÚN CASO LOS AUTORES O TITULARES DEL COPYRIGHT SERÁN RESPONSABLES DE NINGUNA RECLAMACIÓN, DAÑOS U OTRAS RESPONSABILIDADES, YA SEA EN UN LITIGIO, AGRAVIO O DE OTRO MODO, QUE SURJA DE O EN CONEXIÓN CON EL SOFTWARE O EL USO U OTRO TIPO DE ACCIONES EN EL SOFTWARE.  </string>
         \n\n
-    <string name="licence_question_validation">Al usar este programa, usted aprueba las condiciones de uso describidas en la licencia más arriba.</string>
-    <string name="licence_ok">Aprobo</string>
+    <string name="licence_question_validation">Al usar este programa, usted aprueba las condiciones de uso descrito en la licencia más arriba.</string>
+    <string name="licence_ok">Aprobó</string>
     <string name="licence_refuse">Salir</string>
     <string name="key_EULA_accepted">isEulaAccepted</string>
 </resources>

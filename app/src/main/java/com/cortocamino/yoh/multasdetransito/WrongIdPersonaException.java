@@ -10,10 +10,8 @@
 
 package com.cortocamino.yoh.multasdetransito;
 
-/**
- * Created by yoh on 7/14/16.
- */
-public class WrongIdPersonaException extends Exception {
+@SuppressWarnings("unused")
+class WrongIdPersonaException extends Exception {
     public WrongIdPersonaException() {
         super();
     }

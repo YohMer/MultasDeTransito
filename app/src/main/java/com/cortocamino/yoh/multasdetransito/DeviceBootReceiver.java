@@ -18,9 +18,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-/**
- * Created by yoh on 7/11/16.
- */
 public class DeviceBootReceiver extends BroadcastReceiver {
 
     @Override

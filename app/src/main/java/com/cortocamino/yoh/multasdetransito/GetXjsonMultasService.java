@@ -16,12 +16,9 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-/**
- * Created by yoh on 7/13/16.
- */
 public class GetXjsonMultasService extends IntentService {
 
-    static private String TAG = "GetXjsonMultasService";
+    static private final String TAG = "GetXjsonMultasService";
 
     public GetXjsonMultasService() {
         super("GetXjsonMultasService");
@@ -46,7 +43,7 @@ public class GetXjsonMultasService extends IntentService {
 
         if (!totalMultas.equals(lastTotal)) {
             Utils.debugToast(this, "show new notification");
-            new SimpleNotificationBuilder(this, 0, "actualizacion de multas",
+            new SimpleNotificationBuilder(this, 0, "actualización de multas",
                     "nuevo total: " + totalMultasTxt);
         } else {
             Utils.debugToast(this, "notification already shown");

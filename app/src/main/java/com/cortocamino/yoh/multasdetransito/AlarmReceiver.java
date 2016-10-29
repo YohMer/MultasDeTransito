@@ -17,11 +17,8 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-/**
- * Created by yoh on 7/11/16.
- */
 public class AlarmReceiver extends BroadcastReceiver {
-    static private String TAG= "AlarmReceiver";
+    static private final String TAG= "AlarmReceiver";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -38,7 +35,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         //verify the internet connection
         Utils utils = new Utils(context);
-        if (!utils.isNetworkAvailable()) {
+        if (utils.isNetworkUnAvailable()) {
             Utils.log(Log.INFO, TAG, "no network");
             Utils.debugToast(context, "no network");
             return;
