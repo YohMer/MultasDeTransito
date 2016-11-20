@@ -15,5 +15,6 @@ package com.cortocamino.yoh.multasdetransito;
  */
 public enum ObtainedBy {
     CEDULA,
-    PLACA
+    PLACA,
+    NONE
 }

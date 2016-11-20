@@ -27,6 +27,7 @@ import android.util.Log;
 public class MySQLiteHelper extends SQLiteOpenHelper {
 
     private final static String TAG = "MySQLiteHelper";
+    private static boolean createAllUsersDone = false;
     // Database Version
     private static final int DATABASE_VERSION = 1;
     // Database Name
@@ -124,16 +125,28 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues cv = new ContentValues();
-        cv.put(User.Db.ID_CONTRATO,idContrato);
-        cv.put(User.Db.ID_PERSONA,idPersona);
-        cv.put(User.Db.PLACA_1,placa1);
-        cv.put(User.Db.PLACA_2,placa2);
-        cv.put(User.Db.UPDATE_DATE,updateDate);
-        cv.put(User.Db.TOTAL_MULTAS,totalMultas);
+        if (!idContrato.equals("")){
+            cv.put(User.Db.ID_CONTRATO,idContrato);
+        }
+        if (!idPersona.equals("")) {
+            cv.put(User.Db.ID_PERSONA, idPersona);
+        }
+        if (!placa1.equals("")) {
+            cv.put(User.Db.PLACA_1, placa1);
+        }
+        if (!placa2.equals("")) {
+            cv.put(User.Db.PLACA_2, placa2);
+        }
+        if (updateDate > 0) {
+            cv.put(User.Db.UPDATE_DATE, updateDate);
+        }
+        if (!totalMultas.equals("")) {
+            cv.put(User.Db.TOTAL_MULTAS, totalMultas);
+        }
 
-        String query = User.Db.ID + "=? " + User.Db.ID_PERSONA + "=?" +
-                User.Db.OBTAINED_BY + "=?";
-        String[] args = { String.valueOf(id), cedulaNb, ObtainedBy.CEDULA.name() };
+        String query = User.Db.ID + "=? " /*+ User.Db.CEDULA + "=?" +
+                User.Db.OBTAINED_BY + "=?"*/;
+        String[] args = { String.valueOf(id)/*, cedulaNb, ObtainedBy.CEDULA.name() */};
         db.update(User.Db.TABLE, cv, query, args);
         db.close();
     }
@@ -172,43 +185,40 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         c.close();
         return answer;
     }
-/*
-    public long [] getAllUsersId(){ //todo replaced by public List<User> getAllUsers()
-        long [] usersId;
-        String selectQuery = "SELECT  * FROM " + TABLE_USERS;
+
+    public void createAllUsers(){
+        if (createAllUsersDone) return;
+        String selectQuery = "SELECT  * FROM " + User.Db.TABLE;
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor c = db.rawQuery(selectQuery, null);
+        Cursor  c = db.rawQuery(selectQuery,null);
 
         // looping through all rows and adding to list
         if (c.moveToFirst()) {
             do {
-                User user = new User();
-                c.getInt((c.getColumnIndex("id")))
-                  c.getString(c.getColumnIndex(ID_PERSONA)))
-
-                // adding to todo list
-                users.add(user);
+                new User(c);
             } while (c.moveToNext());
         }
 
-        return users;
-    }*/
+        c.close();
+        createAllUsersDone = true;
+        //todo: need to create an Exception
+    }
 
- /*   public User getFirstUserObtainedBy(ObtainedBy obtainedBy){
-        String selectQuery = "SELECT  * FROM " + User.Db.TABLE + " WHERE " + User.Db.OBTAINED_BY +
-                "=" + ObtainedBy.CEDULA.name();
-
+    public User getFirstUserObtainedBy(ObtainedBy obtainedBy){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor c = db.rawQuery(selectQuery, null);
+        String query = User.Db.OBTAINED_BY + "=?";
+        String[] args = {obtainedBy.name()};
+        Cursor c = db.query(User.Db.TABLE, null, query, args, null, null, null);
 
         if (c.moveToFirst()) {
             return new User(c);
         }
         else{
-            return new User();
+            c.close();
+            return new User(); //todo Exception ?
         }
-    }*/
+    }
 
     public long addMultas(String id_multa_from_server, String id_user, String source,
                           float amount, int paid){

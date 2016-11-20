@@ -148,16 +148,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             public boolean onEditorAction(TextView view, int actionId, KeyEvent event) {
                 boolean handled = false;
                 if (actionId == EditorInfo.IME_ACTION_SEND) {
-                    boolean result =
-                            MultasPorCedula.changeCedulaNb(context,
-                                    editText.getText().toString());
+                    String cedula= editText.getText().toString();
 
-                    if (result) {
+                    if (User.isCedulaNbConsistent(cedula)) {
                         hideSoftKeyboard(view);
                     }
                     handled = true;
 
-                    refresh(view);
+                    new updateCedula().execute(cedula);
                 }
                 return handled;
             }
@@ -259,8 +257,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         findViewById(R.id.info1).setVisibility(View.INVISIBLE);
         (findViewById(R.id.btn_refresh)).setVisibility(View.INVISIBLE);
         if ( currentView == 0){
-            new updateCedula().execute("");
+            updateCedulaF();
         }else if ( currentView == 1){
+            //todo: get placa number
             new updatePlaca().execute("");
         }
     }
@@ -307,9 +306,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private class updateCedula extends AsyncTask<String, Void, String> {
         @Override
-        protected String doInBackground(String empty[]) {
+        protected String doInBackground(String arg[]) {
             //connection to the server to retrieve multas value
-            return MultasPorCedula.getMultasFromCedula(MainActivity.this);
+            User.init(MainActivity.this);
+            return User.addUserByCedula(arg[0]);
         }
 
         @Override
@@ -333,9 +333,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     }
 
+    private void updateCedulaF(){
+        EditText editTextCed = (EditText) findViewById(R.id.cedulaNb);
+        String cedula = editTextCed.getText().toString();
+        new updateCedula().execute(cedula);
+    }
     private void updateAll(){
         //cedula must be second because it s the one to be shown at first
         new updatePlaca().execute("");
-        new updateCedula().execute("");
+        updateCedulaF();
     }
 }

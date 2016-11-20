@@ -19,6 +19,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class User {
 
@@ -41,7 +42,7 @@ public class User {
 
     private static Context mContext;
     private static Utils utils;
-    private static User [] users;
+    private static ArrayList<User> users;
 
     //User's database fields
     private int id;
@@ -61,16 +62,34 @@ public class User {
 
     public static void init(Context mContext){
         if (initDone) return;
-        User.mContext = mContext;
-        utils = new Utils(mContext);
-        Db.Helper = new MySQLiteHelper(mContext);
+
+        users = new ArrayList<>();
+
         link_to_multas_page_list = mContext.getString(R.string.link_to_multas_page_list);
+        User.mContext = mContext;
+
+        utils = new Utils(mContext);
+        Db.Helper = new MySQLiteHelper(mContext); //todo: be sure to avoid the creation of 2 differents helpers
+        User.Db.Helper.createAllUsers();
+
         initDone = true;
+    }
+
+    public User(){
+        users.add(this);
+        this.idContrato = "";
+        this.idPersona = "";
+        this.placa1 = "";
+        this.placa2 = "";
+        this.cedula = "";
+        this.updateDate = 0;
+        this.obtainedBy = ObtainedBy.NONE;
     }
 
     public User(Context mContext, String idContrato, String idPersona, String placa1,
                 String placa2, String cedula, int updateDate, String totalMultas,
                 ObtainedBy obtainedBy) {
+        users.add(this);
         User.init(mContext);
         this.idContrato = idContrato;
         this.idPersona = idPersona;
@@ -84,8 +103,9 @@ public class User {
                 totalMultas, obtainedBy);
     }
 
-    private User(Cursor c) {
-        if (!initDone) return;
+    User(Cursor c) {
+        users.add(this);
+        if (!initDone) return; //todo: Exception
         id = c.getInt(c.getColumnIndex(Db.ID));
         idContrato = c.getString(c.getColumnIndex(Db.ID_CONTRATO));
         idPersona =c.getString(c.getColumnIndex(Db.ID_PERSONA));
@@ -145,10 +165,10 @@ public class User {
         return idPersona;
     }
 
-    private static String addUserByCedula(String cedula){
+    static String addUserByCedula(String cedula){
         // based on MultasPorCedula.getMultasFromCedula(mContext)
-        long userId;
-        String idPersona = "-1";
+        long userId = -1;
+        String idPersona = "";
 
         if (!isCedulaNbConsistent(cedula)) {
             return mContext.getString(R.string.msg_cedula_not_valid);
@@ -164,7 +184,7 @@ public class User {
         }
 
         //if id persona not known:
-        if (idPersona == "-1") {
+        if (idPersona.equals("")) {
 
             //find id cedula
             if (!utils.isNetworkAvailable()) {
@@ -181,7 +201,7 @@ public class User {
 
             try {
                 idPersona = extractIdPersona(html);
-                Db.Helper.updateCedulaUser(userId, "", idPersona, "", "", "", 0, "");
+                Db.Helper.updateCedulaUser(userId, "", idPersona, "", "", cedula, 0, "");
             } catch (WrongIdPersonaException e) {
                 Db.Helper.removeUser(userId);
                 return e.getMessage();
@@ -239,4 +259,5 @@ public class User {
         }
         return String.format("%s", total);
     }
+
 }
